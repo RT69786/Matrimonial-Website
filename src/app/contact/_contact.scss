@@ -1,0 +1,143 @@
+@import "../globalStyling/mixin";
+@import "../globalStyling/variables";
+
+.contact-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 170px 24px;
+
+  @include breakpoint(tablet-lg) {
+    padding: 140px 24px;
+  }
+  @include breakpoint(tablet-sm) {
+    padding: 120px 20px;
+  }
+  @include breakpoint(mobile-lg) {
+    padding: 100px 16px;
+  }
+
+  background-image: url("/pics/pic13.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  .for-center-contact-page {
+    position: relative;
+    z-index: 2;
+    max-width: 1600px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+
+    @include breakpoint(tablet-lg) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 48px;
+    }
+
+    .left-side {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+
+      @include breakpoint(tablet-lg) {
+        width: 100%;
+      }
+
+      h2 {
+        font-family: $fontHeading;
+        font-size: 45px;
+        font-weight: $bold;
+        color: $white;
+
+        @include breakpoint(tablet-sm) {
+          font-size: 34px;
+        }
+        @include breakpoint(mobile-lg) {
+          font-size: 28px;
+        }
+      }
+
+      p {
+        width: 100%;
+        padding-top: 15px;
+        font-size: 18px;
+        color: $white;
+        font-family: $fontBody;
+        line-height: 1.6;
+
+        @include breakpoint(mobile-lg) {
+          font-size: 15px;
+        }
+      }
+
+      .small-box-parts {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 40px;
+        width: 100%;
+        margin-top: 40px;
+
+        @include breakpoint(mobile-lg) {
+          flex-direction: column;
+          gap: 24px;
+          margin-top: 28px;
+        }
+
+        .part-one,
+        .part-two {
+          display: flex;
+          flex-direction: column;
+
+          h5 {
+            font-size: 20px;
+            padding-top: 19px;
+            font-weight: 600;
+            color: $pink;
+            font-family: $fontBody;
+
+            @include breakpoint(mobile-lg) {
+              font-size: 17px;
+              padding-top: 12px;
+            }
+          }
+
+          h6 {
+            font-size: 16px;
+            color: $white;
+            font-family: $fontBody;
+
+            @include breakpoint(mobile-lg) {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+
+    .right-side {
+      width: 45%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @include breakpoint(tablet-lg) {
+        width: 100%;
+      }
+    }
+  }
+}

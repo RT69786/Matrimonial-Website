@@ -1,0 +1,68 @@
+@import "../../globalStyling/mixin";
+@import "../../globalStyling/variables";
+
+.step-item {
+  position: relative;
+  flex: 1;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include breakpoint(tablet-sm) { padding: 0; width: 100%; max-width: 400px; }
+
+  &__number {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    border-radius: $radiusFull;
+    background: $pink;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $bold;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__title {
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $semibold;
+    color: $neutral900;
+    margin: 0 0 10px;
+    text-align: center;
+
+    @include breakpoint(mobile-lg) { font-size: $h5; }
+  }
+
+  &__description {
+    font-family: $fontBody;
+    font-size: $h5;
+    font-weight: $regular;
+    color: $neutral700;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 420px;
+    text-align: center;
+
+    @include breakpoint(mobile-lg) { font-size: $small; }
+  }
+
+  &:not(&--last)::after {
+    content: "";
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: $neutral200;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    @include breakpoint(tablet-sm) { display: none; }
+  }
+}

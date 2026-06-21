@@ -1,0 +1,297 @@
+@import "../globalStyling/mixin";
+@import "../globalStyling/variables";
+
+@keyframes cardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.browse-page {
+  padding: 100px 24px 60px;
+  background: $neutral100;
+  min-height: 100vh;
+
+  @include breakpoint(tablet-lg) {
+    padding: 90px 20px 50px;
+  }
+  @include breakpoint(tablet-sm) {
+    padding: 80px 16px 40px;
+  }
+  @include breakpoint(mobile-lg) {
+    padding: 70px 12px 32px;
+  }
+
+  &__inner {
+    max-width: $maxWidth;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+
+    @include breakpoint(tablet-lg) {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  // ── Sidebar ──
+  &__sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: $white;
+    border-radius: $radiusMd;
+    padding: 28px 24px;
+    box-shadow: $shadowSm;
+    position: sticky;
+    top: calc(#{$navHeight} + 20px);
+
+    @include breakpoint(tablet-lg) {
+      width: 100%;
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      align-items: end;
+    }
+
+    @include breakpoint(tablet-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__sidebar-title {
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $semibold;
+    color: $neutral900;
+    margin: 0 0 24px;
+
+    @include breakpoint(tablet-lg) {
+      grid-column: 1 / -1;
+      margin: 0;
+    }
+  }
+
+  &__filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    @include breakpoint(tablet-lg) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__filter-label {
+    font-family: $fontBody;
+    font-size: $small;
+    font-weight: $semibold;
+    color: $neutral700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__search-input {
+    width: 100%;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 10px 12px;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral900;
+    background: $white;
+    transition: $transition;
+
+    &::placeholder {
+      color: $neutral500;
+    }
+    &:focus {
+      outline: none;
+      border-color: $pink;
+    }
+  }
+
+  &__filter-select {
+    width: 100%;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 10px 12px;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral900;
+    appearance: none;
+    background: $white;
+    cursor: pointer;
+    transition: $transition;
+
+    &:focus {
+      outline: none;
+      border-color: $pink;
+    }
+  }
+
+  &__age-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span {
+      font-family: $fontBody;
+      font-size: $small;
+      color: $neutral500;
+      flex-shrink: 0;
+    }
+  }
+
+  &__age-input {
+    width: 70px;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 10px;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral900;
+    transition: $transition;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      border-color: $pink;
+    }
+  }
+
+  // ── Results ──
+  &__results {
+    flex: 1;
+  }
+
+  &__count {
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral500;
+    margin: 0 0 20px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    @include breakpoint(laptop-sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include breakpoint(tablet-sm) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @include breakpoint(mobile-lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__empty {
+    font-family: $fontBody;
+    font-size: $paraFont;
+    color: $neutral500;
+    text-align: center;
+    padding: 60px 0;
+    grid-column: 1 / -1;
+  }
+}
+
+// ── Browse Card ──
+.browse-card {
+  background: $white;
+  border-radius: $radiusMd;
+  box-shadow: $shadowSm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: $transition;
+  animation: cardFadeUp 0.5s ease both;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadowMd;
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  &:hover &__image img {
+    transform: scale(1.04);
+  }
+
+  &__body {
+    padding: 14px 16px 4px;
+  }
+
+  &__name {
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $semibold;
+    color: $pink;
+    margin: 0 0 4px;
+
+    @include breakpoint(mobile-lg) {
+      font-size: $h5;
+    }
+  }
+
+  &__meta {
+    font-family: $fontBody;
+    font-size: $small;
+    color: $neutral500;
+    margin: 0 0 2px;
+  }
+
+  &__profession {
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral700;
+    font-weight: $medium;
+    margin: 0;
+
+    @include breakpoint(mobile-lg) {
+      font-size: $small;
+    }
+  }
+
+  &__btn {
+    margin: 14px 16px 16px;
+    font-family: $fontBody;
+    font-size: $btnText;
+    font-weight: $semibold;
+    color: $white;
+    background-color: $pink;
+    border: 1.5px solid $pink;
+    border-radius: $radiusFull;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background-color: $pinkDark;
+      border-color: $pinkDark;
+    }
+  }
+}

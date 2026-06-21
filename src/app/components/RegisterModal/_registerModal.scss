@@ -1,0 +1,197 @@
+@import "../../globalStyling/mixin";
+@import "../../globalStyling/variables";
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: rgba($neutral900, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-box {
+  background: $white;
+  border-radius: $radiusLg;
+  padding: 40px 36px 36px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  box-shadow: $shadowLg;
+
+  // Add this inside .modal-box in both files
+  @include breakpoint(mobile-lg) {
+    padding: 32px 20px 24px;
+  }
+
+  // Add this inside .modal-box__title in both files
+  @include breakpoint(mobile-lg) {
+    font-size: $h4;
+  }
+
+  &__close {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: $radiusFull;
+    background: $white;
+    border: 1px solid $neutral200;
+    color: $neutral700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition;
+    box-shadow: $shadowSm;
+
+    &:hover {
+      background: $neutral200;
+    }
+  }
+
+  &__title {
+    font-family: $fontHeading;
+    font-size: $h3;
+    font-weight: $bold;
+    color: $neutral900;
+    margin: 0 0 28px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    width: 100%;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 13px 16px;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral900;
+    background: $white;
+    transition: $transition;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: $neutral500;
+    }
+    &:focus {
+      outline: none;
+      border-color: $pink;
+    }
+  }
+
+  &__select-wrap {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 6px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%238C7B75' stroke-width='1.5'/></svg>");
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+  }
+
+  &__select {
+    width: 100%;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 13px 16px;
+    font-family: $fontBody;
+    font-size: $h5;
+    background: $white;
+    appearance: none;
+    cursor: pointer;
+    transition: $transition;
+    box-sizing: border-box;
+
+    &:invalid {
+      color: $neutral500;
+    }
+    &:valid {
+      color: $neutral900;
+    }
+    &:focus {
+      outline: none;
+      border-color: $pink;
+    }
+  }
+
+  &__phone-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__country-code {
+    flex-shrink: 0;
+    border: 1px solid $neutral200;
+    border-radius: $radiusSm;
+    padding: 13px 14px;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral700;
+    white-space: nowrap;
+  }
+
+  &__input--phone {
+    flex: 1;
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 14px;
+    border-radius: $radiusFull;
+    background-color: $pink;
+    border: none;
+    color: $white;
+    font-family: $fontBody;
+    font-size: $paraFont;
+    font-weight: $semibold;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background-color: $pinkDark;
+    }
+  }
+
+  &__switch {
+    text-align: center;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral700;
+    margin: 16px 0 0;
+
+    button {
+      background: none;
+      border: none;
+      color: $pink;
+      font-weight: $semibold;
+      font-size: $h5;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover {
+        color: $pinkDark;
+      }
+    }
+  }
+}

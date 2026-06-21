@@ -1,0 +1,48 @@
+@import "../../globalStyling/mixin";
+@import "../../globalStyling/variables";
+
+.why-choose-card {
+  background: $white;
+  border-radius: $radiusMd;
+  box-shadow: $shadowSm;
+  padding: 32px 28px;
+  text-align: center;
+  transition: $transition;
+
+  @include breakpoint(mobile-lg) { padding: 24px 20px; }
+
+  &:hover { transform: translateY(-4px); box-shadow: $shadowMd; }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: $radiusFull;
+    background: $pinkSoft;
+    color: $pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__title {
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $semibold;
+    color: $neutral900;
+    margin: 0 0 10px;
+
+    @include breakpoint(mobile-lg) { font-size: $h5; }
+  }
+
+  &__description {
+    font-family: $fontBody;
+    font-size: $h5;
+    font-weight: $regular;
+    color: $neutral700;
+    line-height: 1.6;
+    margin: 0;
+
+    @include breakpoint(mobile-lg) { font-size: $small; }
+  }
+}

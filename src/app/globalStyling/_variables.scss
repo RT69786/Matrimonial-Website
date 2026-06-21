@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+// ---- COLOR PALETTE ----
+$white:        #ffffff;
+$offWhite:     #FFF8F5;
+$rose:         #C0392B;        // primary brand color
+$roseLight:    #E8665A;        // hover states
+$roseDark:     #922B21;        // active / deep
+$roseSoft:     #FDECEA;        // backgrounds / badges
+$gold:         #D4A017;        // accent / premium
+$goldLight:    #F0C040;
+$neutral100:   #FDF6F0;
+$neutral200:   #F2E8E5;
+$neutral500:   #8C7B75;
+$neutral700:   #4A3F3C;
+$neutral900:   #1A0F0D;
+$black:        #000000;
+$pink:         #fb407d; 
+$pinkSoft:     #f9e2e8;
+$pinkDark:     #cd0c4c;
+
+// ---- TYPOGRAPHY ----
+$fontBody:     'Plus Jakarta Sans', sans-serif;
+$fontHeading:  'Playfair Display', serif;
+
+// ---- FONT SIZES ----
+$h1:           64px;
+$h2:           42px;
+$h3:           28px;
+$h4:           20px;
+$h5:           16px;
+$paraFont:     18px;
+$btnText:      15px;
+$anchorTag:    15px;
+$small:        13px;
+
+// ---- FONT WEIGHTS ----
+$light:        300;
+$regular:      400;
+$medium:       500;
+$semibold:     600;
+$bold:         700;
+$extrabold:    800;
+
+// ---- SPACING ----
+$maxWidth:     1600px;
+$navHeight:    76px;
+
+// ---- BORDER RADIUS ----
+$radiusSm:     6px;
+$radiusMd:     12px;
+$radiusLg:     20px;
+$radiusFull:   999px;
+
+// ---- SHADOWS ----
+$shadowSm:   0 2px 8px rgba(0, 0, 0, 0.06);
+$shadowMd:   0 4px 20px rgba(0, 0, 0, 0.10);
+$shadowLg:   0 8px 40px rgba(0, 0, 0, 0.14);
+
+// ---- TRANSITIONS ----
+$transition:   all 0.25s ease;

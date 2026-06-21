@@ -1,0 +1,56 @@
+@import "../../globalStyling/mixin";
+@import "../../globalStyling/variables";
+
+.how-it-works {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+
+  @include breakpoint(tablet-sm) { padding: 50px 20px; }
+  @include breakpoint(mobile-lg) { padding: 40px 16px; }
+
+  .for-center-how-it-works {
+    max-width: 1600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__heading {
+    font-family: $fontHeading;
+    font-size: 45px;
+    font-weight: $bold;
+    color: $neutral900;
+    text-align: center;
+    margin: 0 0 12px;
+
+    @include breakpoint(tablet-sm) { font-size: 34px; }
+    @include breakpoint(mobile-lg) { font-size: 28px; }
+  }
+
+  &__subheading {
+    font-family: $fontBody;
+    font-size: $paraFont;
+    color: $neutral700;
+    text-align: center;
+    margin: 0 0 56px;
+    max-width: 560px;
+
+    @include breakpoint(tablet-sm) { font-size: 16px; margin-bottom: 40px; }
+    @include breakpoint(mobile-lg) { font-size: 15px; margin-bottom: 30px; }
+  }
+
+  &__steps {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+
+    @include breakpoint(tablet-sm) {
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+}

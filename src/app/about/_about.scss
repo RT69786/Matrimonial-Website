@@ -1,0 +1,75 @@
+@import "../globalStyling/mixin";
+@import "../globalStyling/variables";
+
+.about-page {
+  padding: 170px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  @include breakpoint(tablet-lg) {
+    padding: 140px 24px;
+  }
+  @include breakpoint(tablet-sm) {
+    padding: 120px 20px;
+  }
+  @include breakpoint(mobile-lg) {
+    padding: 100px 16px;
+  }
+
+  background-image: url("/pics/pic14.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  .for-center-about-page {
+    max-width: 1600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+
+    h2 {
+      font-family: $fontHeading;
+      font-size: 45px;
+      font-weight: $bold;
+      color: $white;
+      text-align: center;
+
+      @include breakpoint(tablet-sm) {
+        font-size: 34px;
+      }
+      @include breakpoint(mobile-lg) {
+        font-size: 28px;
+      }
+    }
+
+    p {
+      font-family: $fontBody;
+      font-size: 20px;
+      color: $white;
+      text-align: center;
+      margin-top: 10px;
+      max-width: 700px;
+      line-height: 1.6;
+
+      @include breakpoint(tablet-sm) {
+        font-size: 17px;
+      }
+      @include breakpoint(mobile-lg) {
+        font-size: 15px;
+      }
+    }
+  }
+}

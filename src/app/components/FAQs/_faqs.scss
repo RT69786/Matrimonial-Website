@@ -1,0 +1,65 @@
+@import "../../globalStyling/mixin";
+@import "../../globalStyling/variables";
+
+.faqs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+
+  @include breakpoint(tablet-sm) {
+    padding: 50px 20px;
+  }
+  @include breakpoint(mobile-lg) {
+    padding: 40px 16px;
+  }
+
+  .for-center-faqs {
+    max-width: 1600px;
+    width: 100%;
+
+    @include breakpoint(desktop) {
+      width: 95%;
+    }
+    @include breakpoint(mobile-lg) {
+      width: 100%;
+    }
+
+    .div-one {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 45px;
+
+      @include breakpoint(mobile-lg) {
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        font-family: $fontHeading;
+        font-size: 45px;
+        font-weight: $bold;
+        color: $neutral900;
+        text-align: center;
+        padding-bottom: 30px;
+
+        @include breakpoint(laptop-sm) {
+          font-size: 40px;
+        }
+        @include breakpoint(tablet-sm) {
+          font-size: 34px;
+        }
+        @include breakpoint(mobile-lg) {
+          font-size: 30px;
+          padding-bottom: 16px;
+        }
+        @include breakpoint(mobile-sm) {
+          font-size: 28px;
+        }
+        @include breakpoint(mobile-xs) {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}

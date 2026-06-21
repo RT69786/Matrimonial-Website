@@ -1,0 +1,71 @@
+@mixin breakpoint($point) {
+  @if $point == hd {
+    @media (max-width: 1920px) {
+      @content;
+    }
+  } @else if $point == xl-desktop {
+    @media (max-width: 1820px) {
+      @content;
+    }
+  } @else if $point == desktop {
+    @media (max-width: 1660px) {
+      @content;
+    }
+  } @else if $point == laptop {
+    @media (max-width: 1440px) {
+      @content;
+    }
+  } @else if $point == laptop-md {
+    @media (max-width: 1366px) {
+      @content;
+    }
+  } @else if $point == laptop-sm {
+    @media (max-width: 1280px) {
+      @content;
+    }
+  } @else if $point == tablet-lg {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  } @else if $point == tablet {
+    @media (max-width: 820px) {
+      @content;
+    }
+  } @else if $point == tablet-sm {
+    @media (max-width: 768px) {
+      @content;
+    }
+  } @else if $point == mobile-lg {
+    @media (max-width: 440px) {
+      @content;
+    }
+  } @else if $point == mobile-md {
+    @media (max-width: 430px) {
+      @content;
+    }
+  } @else if $point == mobile {
+    @media (max-width: 414px) {
+      @content;
+    }
+  } @else if $point == mobile-sm {
+    @media (max-width: 390px) {
+      @content;
+    }
+  } @else if $point == mobile-xs {
+    @media (max-width: 375px) {
+      @content;
+    }
+  } @else if $point == mobile-xxs {
+    @media (max-width: 360px) {
+      @content;
+    }
+  // } @else if $point == tablet-tall {
+  //   @media (max-width: 1330px) and (min-height: 1097px) {
+  //     @content;
+  //   }
+  // } @else if $point == laptop-tall {
+    @media (min-width: 1330px) and (min-height: 1097px) {
+      @content;
+    }
+  }
+}
