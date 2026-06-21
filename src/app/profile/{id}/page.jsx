@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useModal } from "../../context/ModalContext";
+import { useModal } from "../../components/context/ModalContext";
 import { allProfiles } from "../../data/profiles";
 import Footer from "../../components/Footer/Footer";
 import "./_profileDetail.scss";
