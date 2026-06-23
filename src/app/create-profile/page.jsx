@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../lib/supabase";
+import { supabase } from "@/lib/supabase";
 import "./_createProfile.scss";
 
 const cities = ["Karachi", "Lahore", "Islamabad", "Rawalpindi", "Multan", "Faisalabad", "Peshawar", "Quetta", "Sialkot", "Hyderabad"];
