@@ -86,22 +86,29 @@
 
       .small-box-parts {
         display: flex;
+        flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
         gap: 40px;
         width: 100%;
         margin-top: 40px;
+        flex-wrap: wrap;
 
         @include breakpoint(mobile-lg) {
+          gap: 32px;
+          margin-top: 28px;
+        }
+
+        @include breakpoint(mobile-sm) {
           flex-direction: column;
           gap: 24px;
-          margin-top: 28px;
         }
 
         .part-one,
         .part-two {
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
 
           h5 {
             font-size: 20px;

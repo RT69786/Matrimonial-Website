@@ -2,8 +2,9 @@
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useModal } from "@/app/components/context/ModalContext";
+import { useModal } from "../../components/context/ModalContext";
 import { allProfiles } from "../../data/profiles";
+import Image from "next/image";
 import Footer from "../../components/Footer/Footer";
 import "./_profileDetail.scss";
 
@@ -51,7 +52,13 @@ export default function ProfileDetailPage() {
           <div className="profile-detail__grid">
             <div className="profile-detail__photo-col">
               <div className="profile-detail__photo">
-                <img src={profile.image} alt={profile.name} />
+                <Image
+                  src={profile.image}
+                  alt={profile.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 320px"
+                  style={{ objectFit: "cover", objectPosition: "center top" }}
+                />
               </div>
               <button
                 className="profile-detail__interest-btn"
