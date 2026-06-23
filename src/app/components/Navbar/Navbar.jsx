@@ -6,17 +6,17 @@ import { useModal } from "../context/ModalContext";
 import "./_navbar.scss";
 
 const navLinks = [
-  { label: "Home",             href: "/" },
-  { label: "Browse Profiles",  href: "/browse" },
-  { label: "Success Stories",  href: "/#testimonials" },
-  { label: "About",            href: "/about" },
-  { label: "Contact",          href: "/contact" },
+  { label: "Home", href: "/" },
+  { label: "Browse Profiles", href: "/browse" },
+  { label: "Success Stories", href: "/#testimonials" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { openLogin, openRegister } = useModal();
+  const { openLogin, openRegister, user, logout } = useModal();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -35,7 +35,6 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
       <div className="navbar__inner">
-
         <Link href="/" className="navbar__logo">
           <span className="navbar__logo-icon">
             <i className="ri-heart-fill"></i>
@@ -56,8 +55,23 @@ const Navbar = () => {
         </ul>
 
         <div className="navbar__auth">
-          <button onClick={openLogin}    className="navbar__auth-login">Login</button>
-          <button onClick={openRegister} className="navbar__auth-register">Register Free</button>
+          {user ? (
+            <>
+              <span className="navbar__user-email">{user.email}</span>
+              <button onClick={logout} className="navbar__auth-login">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={openLogin} className="navbar__auth-login">
+                Login
+              </button>
+              <button onClick={openRegister} className="navbar__auth-register">
+                Register Free
+              </button>
+            </>
+          )}
         </div>
 
         <button
@@ -72,23 +86,46 @@ const Navbar = () => {
         </button>
       </div>
 
-      <div className={`navbar__drawer ${menuOpen ? "navbar__drawer--open" : ""}`}>
+      <div
+        className={`navbar__drawer ${menuOpen ? "navbar__drawer--open" : ""}`}
+      >
         <ul className="navbar__drawer-links">
           {navLinks.map((link) => (
             <li key={link.href} className="navbar__drawer-item">
-              <Link href={link.href} className="navbar__drawer-anchor" onClick={() => setMenuOpen(false)}>
+              <Link
+                href={link.href}
+                className="navbar__drawer-anchor"
+                onClick={() => setMenuOpen(false)}
+              >
                 {link.label}
               </Link>
             </li>
           ))}
         </ul>
         <div className="navbar__drawer-auth">
-          <button onClick={openLogin}    className="navbar__auth-login">Login</button>
-          <button onClick={openRegister} className="navbar__auth-register">Register Free</button>
+          {user ? (
+            <>
+              <span className="navbar__user-email">{user.email}</span>
+              <button onClick={logout} className="navbar__auth-login">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={openLogin} className="navbar__auth-login">
+                Login
+              </button>
+              <button onClick={openRegister} className="navbar__auth-register">
+                Register Free
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      {menuOpen && <div className="navbar__overlay" onClick={() => setMenuOpen(false)} />}
+      {menuOpen && (
+        <div className="navbar__overlay" onClick={() => setMenuOpen(false)} />
+      )}
     </nav>
   );
 };
