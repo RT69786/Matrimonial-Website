@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import "./_registerModal.scss";
 
@@ -10,17 +11,16 @@ const profileForOptions = [
 ];
 
 export const RegisterModal = ({ onClose, onSwitchToLogin }) => {
+  const router = useRouter();
   const [profileFor, setProfileFor] = useState("");
   const [email,      setEmail]      = useState("");
   const [phone,      setPhone]      = useState("");
   const [password,   setPassword]   = useState("");
   const [loading,    setLoading]    = useState(false);
   const [error,      setError]      = useState("");
-  const [success,    setSuccess]    = useState("");
 
   const handleSubmit = async () => {
     setError("");
-    setSuccess("");
 
     if (!email || !password) {
       setError("Email and password are required.");
@@ -38,10 +38,7 @@ export const RegisterModal = ({ onClose, onSwitchToLogin }) => {
       email,
       password,
       options: {
-        data: {
-          phone,
-          profile_for: profileFor,
-        }
+        data: { phone, profile_for: profileFor }
       }
     });
 
@@ -52,10 +49,8 @@ export const RegisterModal = ({ onClose, onSwitchToLogin }) => {
       return;
     }
 
-    setSuccess("Account created successfully! You can now log in.");
-    setTimeout(() => {
-      onSwitchToLogin();
-    }, 2000);
+    onClose();
+    router.push("/create-profile");
   };
 
   return (
@@ -66,14 +61,7 @@ export const RegisterModal = ({ onClose, onSwitchToLogin }) => {
         <h2 className="modal-box__title">Register and find your soulmate</h2>
 
         {error && (
-          <p style={{ color: "red", fontSize: "14px", marginBottom: "12px" }}>
-            {error}
-          </p>
-        )}
-        {success && (
-          <p style={{ color: "green", fontSize: "14px", marginBottom: "12px" }}>
-            {success}
-          </p>
+          <p style={{ color: "red", fontSize: "14px", marginBottom: "12px" }}>{error}</p>
         )}
 
         <div className="modal-box__fields">
