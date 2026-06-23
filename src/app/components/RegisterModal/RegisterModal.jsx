@@ -114,3 +114,25 @@ export const RegisterModal = ({ onClose, onSwitchToLogin }) => {
             className="modal-box__input"
             type="password"
             placeholder="Create Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <button
+          className="modal-box__submit"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? "Creating account..." : "Register for free"}
+        </button>
+
+        <p className="modal-box__switch">
+          Already have an account?{" "}
+          <button onClick={onSwitchToLogin}>Login</button>
+        </p>
+
+      </div>
+    </div>
+  );
+};
