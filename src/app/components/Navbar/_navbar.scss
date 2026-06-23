@@ -24,12 +24,8 @@
     align-items: center;
     justify-content: space-between;
 
-    @include breakpoint(laptop) {
-      padding: 0 28px;
-    }
-    @include breakpoint(tablet-sm) {
-      padding: 0 20px;
-    }
+    @include breakpoint(laptop)    { padding: 0 28px; }
+    @include breakpoint(tablet-sm) { padding: 0 20px; }
   }
 
   &__logo {
@@ -73,9 +69,7 @@
     gap: 15px;
     list-style: none;
 
-    @include breakpoint(tablet-lg) {
-      display: none;
-    }
+    @include breakpoint(tablet-lg) { display: none; }
   }
 
   &__links-item {
@@ -104,9 +98,7 @@
     gap: 10px;
     flex-shrink: 0;
 
-    @include breakpoint(tablet-lg) {
-      display: none;
-    }
+    @include breakpoint(tablet-lg) { display: none; }
   }
 
   &__auth-login {
@@ -122,9 +114,7 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover {
-      background-color: $pinkSoft;
-    }
+    &:hover { background-color: $pinkSoft; }
   }
 
   &__auth-register {
@@ -140,9 +130,92 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover {
-      background-color: $pinkDark;
-      border-color: $pinkDark;
+    &:hover { background-color: $pinkDark; border-color: $pinkDark; }
+  }
+
+  // ── User Avatar + Dropdown ──
+  &__user {
+    position: relative;
+    cursor: pointer;
+
+    &:hover .navbar__user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  &__user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: $radiusFull;
+    background-color: $pink;
+    color: $white;
+    font-family: $fontHeading;
+    font-size: $h5;
+    font-weight: $bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover { background-color: $pinkDark; }
+  }
+
+  &__user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: $white;
+    border-radius: $radiusMd;
+    box-shadow: $shadowLg;
+    padding: 12px;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: $transition;
+    z-index: 100;
+
+    &-email {
+      font-family: $fontBody;
+      font-size: $small;
+      color: $neutral500;
+      padding: 8px 12px;
+      border-bottom: 1px solid $neutral200;
+      margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    &-link {
+      display: block;
+      font-family: $fontBody;
+      font-size: $h5;
+      color: $neutral700;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: $radiusSm;
+      transition: $transition;
+
+      &:hover { background: $pinkSoft; color: $pink; }
+    }
+
+    &-logout {
+      width: 100%;
+      text-align: left;
+      font-family: $fontBody;
+      font-size: $h5;
+      color: $neutral700;
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      border-radius: $radiusSm;
+      cursor: pointer;
+      transition: $transition;
+      margin-top: 4px;
+
+      &:hover { background: $pinkSoft; color: $pink; }
     }
   }
 
@@ -172,25 +245,14 @@
     }
 
     &--open {
-      span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-      }
-      span:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-      }
-      span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-      }
+      span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     }
 
-    &:hover {
-      background-color: $neutral200;
-    }
+    &:hover { background-color: $neutral200; }
 
-    @include breakpoint(tablet-lg) {
-      display: flex;
-    }
+    @include breakpoint(tablet-lg) { display: flex; }
   }
 
   &__drawer {
@@ -210,13 +272,9 @@
     overflow-y: auto;
     z-index: 999;
 
-    &--open {
-      transform: translateX(0);
-    }
+    &--open { transform: translateX(0); }
 
-    @include breakpoint(tablet-sm) {
-      width: 100%;
-    }
+    @include breakpoint(tablet-sm) { width: 100%; }
   }
 
   &__drawer-links {
@@ -241,10 +299,7 @@
     border-radius: $radiusMd;
     transition: $transition;
 
-    &:hover {
-      color: $pink;
-      background-color: $pinkSoft;
-    }
+    &:hover { color: $pink; background-color: $pinkSoft; }
   }
 
   &__drawer-auth {
@@ -260,6 +315,22 @@
     }
   }
 
+  &__drawer-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid $neutral200;
+    margin-bottom: 8px;
+
+    &-email {
+      font-family: $fontBody;
+      font-size: $small;
+      color: $neutral500;
+      word-break: break-all;
+    }
+  }
+
   &__overlay {
     position: fixed;
     inset: 0;
@@ -267,20 +338,5 @@
     background-color: rgba($neutral900, 0.4);
     z-index: 998;
     backdrop-filter: blur(2px);
-  }
-
-  &__user-email {
-    font-family: $fontBody;
-    font-size: $small;
-    color: $neutral700;
-    font-weight: $medium;
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    @include breakpoint(laptop-sm) {
-      max-width: 120px;
-    }
   }
 }

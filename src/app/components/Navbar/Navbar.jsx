@@ -54,14 +54,26 @@ const Navbar = () => {
           ))}
         </ul>
 
+        {/* ── Desktop Auth ── */}
         <div className="navbar__auth">
           {user ? (
-            <>
-              <span className="navbar__user-email">{user.email}</span>
-              <button onClick={logout} className="navbar__auth-login">
-                Logout
-              </button>
-            </>
+            <div className="navbar__user">
+              <div className="navbar__user-avatar">
+                {user.email.charAt(0).toUpperCase()}
+              </div>
+              <div className="navbar__user-dropdown">
+                <p className="navbar__user-dropdown-email">{user.email}</p>
+                <Link href="/browse" className="navbar__user-dropdown-link">
+                  Browse Profiles
+                </Link>
+                <button
+                  onClick={logout}
+                  className="navbar__user-dropdown-logout"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
           ) : (
             <>
               <button onClick={openLogin} className="navbar__auth-login">
@@ -86,6 +98,7 @@ const Navbar = () => {
         </button>
       </div>
 
+      {/* ── Mobile Drawer ── */}
       <div
         className={`navbar__drawer ${menuOpen ? "navbar__drawer--open" : ""}`}
       >
@@ -102,11 +115,23 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+
         <div className="navbar__drawer-auth">
           {user ? (
             <>
-              <span className="navbar__user-email">{user.email}</span>
-              <button onClick={logout} className="navbar__auth-login">
+              <div className="navbar__drawer-user">
+                <div className="navbar__user-avatar">
+                  {user.email.charAt(0).toUpperCase()}
+                </div>
+                <p className="navbar__drawer-user-email">{user.email}</p>
+              </div>
+              <button
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+                className="navbar__auth-register"
+              >
                 Logout
               </button>
             </>
