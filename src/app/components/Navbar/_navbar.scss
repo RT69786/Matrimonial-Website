@@ -2,6 +2,7 @@
 @import "../../globalStyling/variables";
 
 .navbar {
+  
   position: fixed;
   top: 0;
   left: 0;
@@ -16,6 +17,7 @@
   }
 
   &__inner {
+    
     max-width: $maxWidth;
     width: 100%;
     height: $navHeight;
@@ -24,8 +26,12 @@
     align-items: center;
     justify-content: space-between;
 
-    @include breakpoint(laptop)    { padding: 0 28px; }
-    @include breakpoint(tablet-sm) { padding: 0 20px; }
+    @include breakpoint(laptop) {
+      padding: 0 28px;
+    }
+    @include breakpoint(tablet-sm) {
+      padding: 0 20px;
+    }
   }
 
   &__logo {
@@ -64,12 +70,15 @@
   }
 
   &__links {
+  
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
     list-style: none;
 
-    @include breakpoint(tablet-lg) { display: none; }
+    @include breakpoint(tablet-lg) {
+      display: none;
+    }
   }
 
   &__links-item {
@@ -98,7 +107,9 @@
     gap: 10px;
     flex-shrink: 0;
 
-    @include breakpoint(tablet-lg) { display: none; }
+    @include breakpoint(tablet-lg) {
+      display: none;
+    }
   }
 
   &__auth-login {
@@ -114,7 +125,9 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover { background-color: $pinkSoft; }
+    &:hover {
+      background-color: $pinkSoft;
+    }
   }
 
   &__auth-register {
@@ -130,7 +143,10 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover { background-color: $pinkDark; border-color: $pinkDark; }
+    &:hover {
+      background-color: $pinkDark;
+      border-color: $pinkDark;
+    }
   }
 
   // ── User Avatar + Dropdown ──
@@ -160,7 +176,9 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover { background-color: $pinkDark; }
+    &:hover {
+      background-color: $pinkDark;
+    }
   }
 
   &__user-dropdown {
@@ -198,7 +216,10 @@
       border-radius: $radiusSm;
       transition: $transition;
 
-      &:hover { background: $pinkSoft; color: $pink; }
+      &:hover {
+        background: $pinkSoft;
+        color: $pink;
+      }
     }
 
     &-logout {
@@ -215,7 +236,10 @@
       transition: $transition;
       margin-top: 4px;
 
-      &:hover { background: $pinkSoft; color: $pink; }
+      &:hover {
+        background: $pinkSoft;
+        color: $pink;
+      }
     }
   }
 
@@ -245,14 +269,25 @@
     }
 
     &--open {
-      span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-      span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
     }
 
-    &:hover { background-color: $neutral200; }
+    &:hover {
+      background-color: $neutral200;
+    }
 
-    @include breakpoint(tablet-lg) { display: flex; }
+    @include breakpoint(tablet-lg) {
+      display: flex;
+    }
   }
 
   &__drawer {
@@ -272,9 +307,13 @@
     overflow-y: auto;
     z-index: 999;
 
-    &--open { transform: translateX(0); }
+    &--open {
+      transform: translateX(0);
+    }
 
-    @include breakpoint(tablet-sm) { width: 100%; }
+    @include breakpoint(tablet-sm) {
+      width: 100%;
+    }
   }
 
   &__drawer-links {
@@ -299,7 +338,10 @@
     border-radius: $radiusMd;
     transition: $transition;
 
-    &:hover { color: $pink; background-color: $pinkSoft; }
+    &:hover {
+      color: $pink;
+      background-color: $pinkSoft;
+    }
   }
 
   &__drawer-auth {
