@@ -2,14 +2,8 @@
 @import "../globalStyling/variables";
 
 @keyframes cardFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .browse-page {
@@ -17,15 +11,9 @@
   background: $neutral100;
   min-height: 100vh;
 
-  @include breakpoint(tablet-lg) {
-    padding: 90px 20px 50px;
-  }
-  @include breakpoint(tablet-sm) {
-    padding: 80px 16px 40px;
-  }
-  @include breakpoint(mobile-lg) {
-    padding: 70px 12px 32px;
-  }
+  @include breakpoint(tablet-lg) { padding: 90px 20px 50px; }
+  @include breakpoint(tablet-sm) { padding: 80px 16px 40px; }
+  @include breakpoint(mobile-lg) { padding: 70px 12px 32px; }
 
   &__inner {
     max-width: $maxWidth;
@@ -34,10 +22,7 @@
     gap: 32px;
     align-items: flex-start;
 
-    @include breakpoint(tablet-lg) {
-      flex-direction: column;
-      gap: 24px;
-    }
+    @include breakpoint(tablet-lg) { flex-direction: column; gap: 24px; }
   }
 
   &__sidebar {
@@ -59,9 +44,7 @@
       align-items: end;
     }
 
-    @include breakpoint(tablet-sm) {
-      grid-template-columns: 1fr;
-    }
+    @include breakpoint(tablet-sm) { grid-template-columns: 1fr; }
   }
 
   &__sidebar-title {
@@ -71,10 +54,7 @@
     color: $neutral900;
     margin: 0 0 24px;
 
-    @include breakpoint(tablet-lg) {
-      grid-column: 1 / -1;
-      margin: 0;
-    }
+    @include breakpoint(tablet-lg) { grid-column: 1 / -1; margin: 0; }
   }
 
   &__filter-group {
@@ -83,9 +63,7 @@
     gap: 8px;
     margin-bottom: 20px;
 
-    @include breakpoint(tablet-lg) {
-      margin-bottom: 0;
-    }
+    @include breakpoint(tablet-lg) { margin-bottom: 0; }
   }
 
   &__filter-label {
@@ -108,13 +86,8 @@
     background: $white;
     transition: $transition;
 
-    &::placeholder {
-      color: $neutral500;
-    }
-    &:focus {
-      outline: none;
-      border-color: $pink;
-    }
+    &::placeholder { color: $neutral500; }
+    &:focus { outline: none; border-color: $pink; }
   }
 
   &__filter-select {
@@ -130,10 +103,7 @@
     cursor: pointer;
     transition: $transition;
 
-    &:focus {
-      outline: none;
-      border-color: $pink;
-    }
+    &:focus { outline: none; border-color: $pink; }
   }
 
   &__age-row {
@@ -141,12 +111,7 @@
     align-items: center;
     gap: 8px;
 
-    span {
-      font-family: $fontBody;
-      font-size: $small;
-      color: $neutral500;
-      flex-shrink: 0;
-    }
+    span { font-family: $fontBody; font-size: $small; color: $neutral500; flex-shrink: 0; }
   }
 
   &__age-input {
@@ -160,15 +125,10 @@
     transition: $transition;
     text-align: center;
 
-    &:focus {
-      outline: none;
-      border-color: $pink;
-    }
+    &:focus { outline: none; border-color: $pink; }
   }
 
-  &__results {
-    flex: 1;
-  }
+  &__results { flex: 1; }
 
   &__count {
     font-family: $fontBody;
@@ -182,16 +142,9 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 
-    @include breakpoint(laptop-sm) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @include breakpoint(tablet-sm) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    @include breakpoint(mobile-lg) {
-      grid-template-columns: 1fr;
-    }
+    @include breakpoint(laptop-sm)  { grid-template-columns: repeat(2, 1fr); }
+    @include breakpoint(tablet-sm)  { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    @include breakpoint(mobile-lg)  { grid-template-columns: 1fr; }
   }
 
   &__empty {
@@ -238,9 +191,7 @@
     transform: scale(1.04);
   }
 
-  &__body {
-    padding: 14px 16px 4px;
-  }
+  &__body { padding: 14px 16px 4px; }
 
   &__name {
     font-family: $fontHeading;
@@ -249,9 +200,7 @@
     color: $pink;
     margin: 0 0 4px;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h5;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h5; }
   }
 
   &__meta {
@@ -268,9 +217,7 @@
     font-weight: $medium;
     margin: 0;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $small;
-    }
+    @include breakpoint(mobile-lg) { font-size: $small; }
   }
 
   &__btn {
@@ -286,9 +233,6 @@
     cursor: pointer;
     transition: $transition;
 
-    &:hover {
-      background-color: $pinkDark;
-      border-color: $pinkDark;
-    }
+    &:hover { background-color: $pinkDark; border-color: $pinkDark; }
   }
 }

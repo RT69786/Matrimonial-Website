@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { supabase } from "@/app/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { LoginModal } from "../LoginModal/LoginModal";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
 
