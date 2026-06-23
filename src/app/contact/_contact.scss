@@ -99,7 +99,7 @@
           margin-top: 28px;
         }
 
-        @include breakpoint(mobile-sm) {
+        @include breakpoint(mobile-xxs) {
           flex-direction: column;
           gap: 24px;
         }

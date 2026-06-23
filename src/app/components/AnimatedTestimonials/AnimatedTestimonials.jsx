@@ -66,7 +66,7 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <h3 className="animated-testimonials__name">
               {testimonials[active].name}
@@ -74,23 +74,9 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
             <p className="animated-testimonials__designation">
               {testimonials[active].designation}
             </p>
-            <motion.p className="animated-testimonials__quote">
-              {testimonials[active].quote.split(" ").map((word, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ filter: "blur(8px)", opacity: 0, y: 4 }}
-                  animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.2,
-                    ease: "easeInOut",
-                    delay: 0.02 * index,
-                  }}
-                  className="animated-testimonials__word"
-                >
-                  {word}&nbsp;
-                </motion.span>
-              ))}
-            </motion.p>
+            <p className="animated-testimonials__quote">
+              {testimonials[active].quote}
+            </p>
           </motion.div>
 
           <div className="animated-testimonials__nav">
