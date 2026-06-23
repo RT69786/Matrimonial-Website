@@ -43,12 +43,11 @@ const Footer = () => {
         <div className="simple-line"></div>
 
         <div className="part-two">
+          <h4>© 2026 Rishta.pk. All rights reserved.</h4>
 
-            <h4>© 2026 Rishta.pk. All rights reserved.</h4>
-
-<div className="icons-list">
-<i class="ri-facebook-fill"></i>
-</div>
+          <div className="icons-list">
+           <i className="ri-facebook-fill"></i>
+          </div>
         </div>
       </section>
     </div>

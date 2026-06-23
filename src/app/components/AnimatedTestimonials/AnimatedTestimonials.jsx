@@ -25,7 +25,8 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
     }
   }, [autoplay]);
 
-  const randomTilt = () => Math.floor(Math.random() * 9) - 4;
+  const tilts = [-4, 2, -2, 3, -1, 4, -3, 1];
+  const randomTilt = (index) => tilts[index % tilts.length];
 
   return (
     <div className="animated-testimonials">
@@ -35,16 +36,16 @@ export const AnimatedTestimonials = ({ testimonials, autoplay = false }) => {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.src}
-                initial={{ opacity: 0, scale: 0.9, rotate: randomTilt() }}
+                initial={{ opacity: 0, scale: 0.9, rotate: randomTilt(index) }}
                 animate={{
                   opacity: isActive(index) ? 1 : 0.7,
                   scale: isActive(index) ? 1 : 0.95,
-                  rotate: isActive(index) ? 0 : randomTilt(),
+                  rotate: isActive(index) ? 0 : randomTilt(index),
                   zIndex: isActive(index)
                     ? 40
                     : testimonials.length + 2 - index,
                 }}
-                exit={{ opacity: 0, scale: 0.9, rotate: randomTilt() }}
+                exit={{ opacity: 0, scale: 0.9, rotate: randomTilt(index) }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="animated-testimonials__image-item"
               >
