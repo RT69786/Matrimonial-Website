@@ -2,7 +2,6 @@
 
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { allProfiles } from "../data/profiles";
 import CTABanner from "../components/CTABanner/CTABanner";
 import Footer from "../components/Footer/Footer";
@@ -134,16 +133,7 @@ function BrowseContent() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="browse-card__image">
-                    <Image
-                      src={p.image}
-                      alt={p.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      style={{
-                        objectFit: "cover",
-                        objectPosition: "center top",
-                      }}
-                    />
+                    <img src={p.image} alt={p.name} loading="lazy" />
                   </div>
                   <div className="browse-card__body">
                     <h3 className="browse-card__name">{p.name}</h3>
