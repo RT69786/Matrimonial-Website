@@ -113,7 +113,12 @@
     overflow: hidden;
     box-shadow: $shadowMd;
     aspect-ratio: 3 / 4;
-    position: relative; /* needed for Next.js Image with fill */
+    position: relative;
+
+    &--blurred img {
+      filter: blur(12px);
+      transform: scale(1.1);
+    }
   }
 
   &__interest-btn {
@@ -133,10 +138,42 @@
       background-color: $pinkDark;
       transform: translateY(-2px);
     }
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
 
     @include breakpoint(mobile-lg) {
       padding: 12px;
       font-size: $h5;
+    }
+  }
+
+  &__status {
+    width: 100%;
+    padding: 14px;
+    border-radius: $radiusMd;
+    font-family: $fontBody;
+    font-size: $h5;
+    font-weight: $semibold;
+    text-align: center;
+
+    &--pending {
+      background: #fff8e1;
+      color: #b45309;
+      border: 1px solid #fcd34d;
+    }
+
+    &--accepted {
+      background: #f0fff4;
+      color: #1a7a3a;
+      border: 1px solid #b2f5c8;
+    }
+
+    &--declined {
+      background: #fff0f0;
+      color: #cc0000;
+      border: 1px solid #ffcccc;
     }
   }
 
@@ -185,6 +222,45 @@
     @include breakpoint(mobile-lg) {
       font-size: $h5;
       margin: 0 0 20px;
+    }
+  }
+
+  // ── Locked State ──
+  &__locked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  &__locked-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  &__locked-title {
+    font-family: $fontHeading;
+    font-size: $h3;
+    font-weight: $bold;
+    color: $neutral900;
+    margin: 0 0 12px;
+
+    @include breakpoint(mobile-lg) {
+      font-size: $h4;
+    }
+  }
+
+  &__locked-text {
+    font-family: $fontBody;
+    font-size: $paraFont;
+    color: $neutral500;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0;
+
+    @include breakpoint(mobile-lg) {
+      font-size: $h5;
     }
   }
 
