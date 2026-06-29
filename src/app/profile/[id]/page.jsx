@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useModal } from "../../components/context/ModalContext";
-import { allProfiles } from "../../data/profiles";
-import { supabase } from "../../lib/supabase";
+import { useModal } from "@/app/components/context/ModalContext";
+import { allProfiles } from "@/app/data/profiles";
+import { supabase } from "@/lib/supabase";
 import Image from "next/image";
-import Footer from "../../components/Footer/Footer";
+import Footer from "@/app/components/Footer/Footer";
 import "./_profileDetail.scss";
 
 export default function ProfileDetailPage() {
