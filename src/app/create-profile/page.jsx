@@ -125,7 +125,6 @@ export default function CreateProfilePage() {
 
     let image_url = null;
 
-    // upload photo if selected
     if (photoFile) {
       const fileExt = photoFile.name.split(".").pop();
       const filePath = `${user.id}/profile.${fileExt}`;
@@ -174,8 +173,10 @@ export default function CreateProfilePage() {
       return;
     }
 
-    setSuccess("Profile created successfully!");
-    setTimeout(() => router.push("/browse"), 1500);
+    // sign out after profile creation so user must login to browse
+    setSuccess("Profile created! Please login to start browsing profiles.");
+    await supabase.auth.signOut();
+    setTimeout(() => router.push("/"), 2000);
   };
 
   return (
@@ -194,7 +195,6 @@ export default function CreateProfilePage() {
           {/* ── Photo Upload ── */}
           <div className="create-profile__section">
             <h3 className="create-profile__section-title">Profile Photo</h3>
-
             <div className="create-profile__photo-upload">
               <div
                 className={`create-profile__photo-preview ${form.blur_photo ? "create-profile__photo-preview--blurred" : ""}`}

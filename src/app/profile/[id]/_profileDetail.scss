@@ -2,14 +2,8 @@
 @import "../../globalStyling/variables";
 
 @keyframes detailFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .profile-detail {
@@ -34,9 +28,7 @@
       font-size: $h5;
       background: none;
       border: none;
-      &:hover {
-        text-decoration: underline;
-      }
+      &:hover { text-decoration: underline; }
     }
   }
 
@@ -46,12 +38,8 @@
     padding: 40px 24px;
     animation: detailFadeUp 0.5s ease both;
 
-    @include breakpoint(tablet-sm) {
-      padding: 28px 16px;
-    }
-    @include breakpoint(mobile-lg) {
-      padding: 20px 12px;
-    }
+    @include breakpoint(tablet-sm) { padding: 28px 16px; }
+    @include breakpoint(mobile-lg) { padding: 20px 12px; }
   }
 
   &__back {
@@ -67,14 +55,9 @@
     gap: 6px;
     transition: $transition;
 
-    &:hover {
-      color: $pink;
-    }
+    &:hover { color: $pink; }
 
-    @include breakpoint(mobile-lg) {
-      margin-bottom: 20px;
-      font-size: $small;
-    }
+    @include breakpoint(mobile-lg) { margin-bottom: 20px; font-size: $small; }
   }
 
   &__grid {
@@ -83,14 +66,8 @@
     gap: 40px;
     align-items: flex-start;
 
-    @include breakpoint(tablet-lg) {
-      grid-template-columns: 260px 1fr;
-      gap: 28px;
-    }
-    @include breakpoint(tablet-sm) {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
+    @include breakpoint(tablet-lg) { grid-template-columns: 260px 1fr; gap: 28px; }
+    @include breakpoint(tablet-sm) { grid-template-columns: 1fr; gap: 24px; }
   }
 
   &__photo-col {
@@ -133,20 +110,12 @@
     font-weight: $semibold;
     cursor: pointer;
     transition: $transition;
+    animation: detailFadeUp 0.5s ease both;
 
-    &:hover {
-      background-color: $pinkDark;
-      transform: translateY(-2px);
-    }
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
+    &:hover { background-color: $pinkDark; transform: translateY(-2px); }
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
 
-    @include breakpoint(mobile-lg) {
-      padding: 12px;
-      font-size: $h5;
-    }
+    @include breakpoint(mobile-lg) { padding: 12px; font-size: $h5; }
   }
 
   &__status {
@@ -157,6 +126,7 @@
     font-size: $h5;
     font-weight: $semibold;
     text-align: center;
+    animation: detailFadeUp 0.5s ease both;
 
     &--pending {
       background: #fff8e1;
@@ -183,15 +153,9 @@
     padding: 36px;
     box-shadow: $shadowSm;
 
-    @include breakpoint(tablet-lg) {
-      padding: 28px 24px;
-    }
-    @include breakpoint(tablet-sm) {
-      padding: 24px 20px;
-    }
-    @include breakpoint(mobile-lg) {
-      padding: 20px 16px;
-    }
+    @include breakpoint(tablet-lg) { padding: 28px 24px; }
+    @include breakpoint(tablet-sm) { padding: 24px 20px; }
+    @include breakpoint(mobile-lg) { padding: 20px 16px; }
   }
 
   &__name {
@@ -201,15 +165,9 @@
     color: $neutral900;
     margin: 0 0 6px;
 
-    @include breakpoint(tablet-lg) {
-      font-size: 36px;
-    }
-    @include breakpoint(tablet-sm) {
-      font-size: $h3;
-    }
-    @include breakpoint(mobile-lg) {
-      font-size: 26px;
-    }
+    @include breakpoint(tablet-lg) { font-size: 36px; }
+    @include breakpoint(tablet-sm) { font-size: $h3; }
+    @include breakpoint(mobile-lg) { font-size: 26px; }
   }
 
   &__tagline {
@@ -219,24 +177,24 @@
     font-weight: $medium;
     margin: 0 0 32px;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h5;
-      margin: 0 0 20px;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h5; margin: 0 0 20px; }
   }
 
-  // ── Locked State ──
   &__locked {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 48px 24px;
+
+    @include breakpoint(mobile-lg) { padding: 32px 16px; }
   }
 
   &__locked-icon {
     font-size: 48px;
     margin-bottom: 16px;
+
+    @include breakpoint(mobile-lg) { font-size: 36px; }
   }
 
   &__locked-title {
@@ -246,9 +204,7 @@
     color: $neutral900;
     margin: 0 0 12px;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h4;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h4; }
   }
 
   &__locked-text {
@@ -259,9 +215,7 @@
     max-width: 400px;
     margin: 0;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h5;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h5; }
   }
 
   &__section-title {
@@ -273,14 +227,10 @@
     padding-bottom: 10px;
     border-bottom: 1px solid $neutral200;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h5;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h5; }
   }
 
-  &__about {
-    margin-bottom: 36px;
-  }
+  &__about { margin-bottom: 36px; }
 
   &__about-text {
     font-family: $fontBody;
@@ -289,9 +239,7 @@
     line-height: 1.7;
     margin: 0;
 
-    @include breakpoint(mobile-lg) {
-      font-size: $h5;
-    }
+    @include breakpoint(mobile-lg) { font-size: $h5; }
   }
 
   &__table {
@@ -299,9 +247,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 0;
 
-    @include breakpoint(mobile-lg) {
-      grid-template-columns: 1fr;
-    }
+    @include breakpoint(mobile-lg) { grid-template-columns: 1fr; }
   }
 
   &__row {
@@ -310,18 +256,12 @@
     padding: 14px 0;
     border-bottom: 1px solid $neutral200;
 
-    &:nth-last-child(-n + 2) {
-      border-bottom: none;
-    }
+    &:nth-last-child(-n+2) { border-bottom: none; }
 
     @include breakpoint(mobile-lg) {
       padding: 12px 0;
-      &:last-child {
-        border-bottom: none;
-      }
-      &:nth-last-child(2) {
-        border-bottom: 1px solid $neutral200;
-      }
+      &:last-child { border-bottom: none; }
+      &:nth-last-child(2) { border-bottom: 1px solid $neutral200; }
     }
   }
 
