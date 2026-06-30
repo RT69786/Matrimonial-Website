@@ -6,7 +6,7 @@ import { useModal } from "../components/context/ModalContext";
 import "./_myInterests.scss";
 
 export default function MyInterestsPage() {
-  const { user, openLogin } = useModal();
+  const { user, openLogin, refreshPendingCount } = useModal();
 
   const [activeTab, setActiveTab] = useState("received");
   const [received, setReceived] = useState([]);
@@ -60,6 +60,18 @@ export default function MyInterestsPage() {
       .update({ status })
       .eq("id", interestId);
 
+    if (!error) {
+      fetchInterests();
+      refreshPendingCount();
+    }
+  };
+
+  const handleWithdraw = async (interestId) => {
+    const { error } = await supabase
+      .from("interests")
+      .delete()
+      .eq("id", interestId);
+
     if (!error) fetchInterests();
   };
 
@@ -76,7 +88,6 @@ export default function MyInterestsPage() {
 
   const list = activeTab === "received" ? received : sent;
 
-  // only count items that still need attention (pending)
   const receivedPendingCount = received.filter(
     (i) => i.status === "pending",
   ).length;
@@ -131,7 +142,7 @@ export default function MyInterestsPage() {
                   </p>
                 </div>
 
-                {activeTab === "received" && interest.status === "pending" ? (
+                {activeTab === "received" && interest.status === "pending" && (
                   <div className="interest-card__actions">
                     <button
                       className="interest-card__accept"
@@ -146,7 +157,21 @@ export default function MyInterestsPage() {
                       Decline
                     </button>
                   </div>
-                ) : (
+                )}
+
+                {activeTab === "sent" && interest.status === "pending" && (
+                  <div className="interest-card__actions">
+                    <button
+                      className="interest-card__decline"
+                      onClick={() => handleWithdraw(interest.id)}
+                    >
+                      Withdraw
+                    </button>
+                  </div>
+                )}
+
+                {((activeTab === "received" && interest.status !== "pending") ||
+                  (activeTab === "sent" && interest.status !== "pending")) && (
                   <div
                     className={`interest-card__badge interest-card__badge--${interest.status}`}
                   >

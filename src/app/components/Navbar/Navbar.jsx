@@ -16,7 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { openLogin, openRegister, user, logout } = useModal();
+  const { openLogin, openRegister, user, logout, pendingCount } = useModal();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -60,11 +60,26 @@ const Navbar = () => {
             <div className="navbar__user">
               <div className="navbar__user-avatar">
                 {user.email.charAt(0).toUpperCase()}
+                {pendingCount > 0 && (
+                  <span className="navbar__user-badge">{pendingCount}</span>
+                )}
               </div>
               <div className="navbar__user-dropdown">
                 <p className="navbar__user-dropdown-email">{user.email}</p>
-                <Link href="/browse" className="navbar__user-dropdown-link">
-                  Browse Profiles
+                <Link href="/members" className="navbar__user-dropdown-link">
+                  Browse Members
+                </Link>
+                <Link
+                  href="/my-interests"
+                  className="navbar__user-dropdown-link"
+                >
+                  My Interests {pendingCount > 0 && `(${pendingCount})`}
+                </Link>
+                <Link
+                  href="/edit-profile"
+                  className="navbar__user-dropdown-link"
+                >
+                  Edit Profile
                 </Link>
                 <button
                   onClick={logout}
@@ -114,6 +129,37 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          {user && (
+            <>
+              <li className="navbar__drawer-item">
+                <Link
+                  href="/members"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Browse Members
+                </Link>
+              </li>
+              <li className="navbar__drawer-item">
+                <Link
+                  href="/my-interests"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Interests {pendingCount > 0 && `(${pendingCount})`}
+                </Link>
+              </li>
+              <li className="navbar__drawer-item">
+                <Link
+                  href="/edit-profile"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Edit Profile
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
 
         <div className="navbar__drawer-auth">

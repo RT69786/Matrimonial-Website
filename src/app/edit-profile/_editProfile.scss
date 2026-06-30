@@ -1,0 +1,272 @@
+@import "../globalStyling/mixin";
+@import "../globalStyling/variables";
+
+.edit-profile {
+  padding-top: $navHeight;
+  min-height: 100vh;
+  background: $neutral100;
+  padding-bottom: 60px;
+
+  &__loading {
+    padding-top: 200px;
+    text-align: center;
+    font-family: $fontBody;
+    color: $neutral500;
+  }
+
+  &__inner {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px;
+
+    @include breakpoint(tablet-sm) {
+      padding: 28px 16px;
+    }
+  }
+
+  &__title {
+    font-family: $fontHeading;
+    font-size: $h2;
+    font-weight: $bold;
+    color: $neutral900;
+    margin: 0 0 8px;
+
+    @include breakpoint(tablet-sm) {
+      font-size: $h3;
+    }
+  }
+
+  &__subtitle {
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral500;
+    margin: 0 0 32px;
+  }
+
+  &__error {
+    background: #fff0f0;
+    border: 1px solid #ffcccc;
+    color: #cc0000;
+    padding: 12px 16px;
+    border-radius: $radiusSm;
+    font-family: $fontBody;
+    font-size: $h5;
+    margin-bottom: 20px;
+  }
+
+  &__success {
+    background: #f0fff4;
+    border: 1px solid #b2f5c8;
+    color: #1a7a3a;
+    padding: 12px 16px;
+    border-radius: $radiusSm;
+    font-family: $fontBody;
+    font-size: $h5;
+    margin-bottom: 20px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__section {
+    background: $white;
+    border-radius: $radiusMd;
+    padding: 28px;
+    box-shadow: $shadowSm;
+
+    @include breakpoint(mobile-lg) {
+      padding: 20px 16px;
+    }
+  }
+
+  &__section-title {
+    font-family: $fontHeading;
+    font-size: $h4;
+    font-weight: $semibold;
+    color: $neutral900;
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $neutral200;
+  }
+
+  &__photo-upload {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+
+    @include breakpoint(tablet-sm) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__photo-preview {
+    width: 160px;
+    height: 160px;
+    border-radius: $radiusMd;
+    overflow: hidden;
+    border: 2px dashed $neutral200;
+    flex-shrink: 0;
+    background: $neutral100;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    &--blurred img {
+      filter: blur(8px);
+      transform: scale(1.1);
+    }
+  }
+
+  &__photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    span {
+      font-size: 32px;
+    }
+    p {
+      font-family: $fontBody;
+      font-size: $small;
+      color: $neutral500;
+      text-align: center;
+    }
+  }
+
+  &__photo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+  }
+
+  &__photo-btn {
+    display: inline-block;
+    font-family: $fontBody;
+    font-size: $btnText;
+    font-weight: $semibold;
+    color: $white;
+    background-color: $pink;
+    border-radius: $radiusFull;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: $transition;
+    text-align: center;
+
+    &:hover {
+      background-color: $pinkDark;
+    }
+  }
+
+  &__blur-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: $fontBody;
+    font-size: $h5;
+    color: $neutral700;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: $pink;
+      cursor: pointer;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include breakpoint(tablet-sm) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-family: $fontBody;
+      font-size: $small;
+      font-weight: $semibold;
+      color: $neutral700;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid $neutral200;
+      border-radius: $radiusSm;
+      padding: 12px 14px;
+      font-family: $fontBody;
+      font-size: $h5;
+      color: $neutral900;
+      background: $white;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: $pink;
+      }
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+    textarea {
+      resize: none;
+      line-height: 1.6;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 16px;
+    border-radius: $radiusFull;
+    background-color: $pink;
+    border: none;
+    color: $white;
+    font-family: $fontBody;
+    font-size: $paraFont;
+    font-weight: $semibold;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background-color: $pinkDark;
+    }
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}
