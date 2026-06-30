@@ -68,7 +68,6 @@ export default function CreateProfilePage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
 
@@ -173,10 +172,10 @@ export default function CreateProfilePage() {
       return;
     }
 
-    // sign out after profile creation so user must login to browse
-    setSuccess("Profile created! Please login to start browsing profiles.");
+    // sign out and send straight to confirmation page so user never
+    // briefly sees their own profile floating around the homepage
     await supabase.auth.signOut();
-    setTimeout(() => router.push("/"), 2000);
+    router.push("/profile-created");
   };
 
   return (
@@ -189,7 +188,6 @@ export default function CreateProfilePage() {
         </p>
 
         {error && <p className="create-profile__error">{error}</p>}
-        {success && <p className="create-profile__success">{success}</p>}
 
         <div className="create-profile__form">
           {/* ── Photo Upload ── */}
@@ -230,8 +228,8 @@ export default function CreateProfilePage() {
                   <span>Blur my photo for privacy</span>
                 </label>
                 <p className="create-profile__blur-hint">
-                  If enabled, your photo will appear blurred to others until you
-                  accept their interest request.
+                  If enabled, your photo will appear blurred to others until
+                  they accept their interest request.
                 </p>
               </div>
             </div>

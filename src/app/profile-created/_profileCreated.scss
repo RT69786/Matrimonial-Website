@@ -1,0 +1,56 @@
+@import "../globalStyling/mixin";
+@import "../globalStyling/variables";
+
+.profile-created {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $neutral100;
+  padding: 24px;
+
+  &__inner {
+    text-align: center;
+    max-width: 480px;
+  }
+
+  &__icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-family: $fontHeading;
+    font-size: $h2;
+    font-weight: $bold;
+    color: $neutral900;
+    margin: 0 0 16px;
+
+    @include breakpoint(tablet-sm) { font-size: $h3; }
+  }
+
+  &__text {
+    font-family: $fontBody;
+    font-size: $paraFont;
+    color: $neutral500;
+    line-height: 1.6;
+    margin: 0 0 32px;
+
+    @include breakpoint(mobile-lg) { font-size: $h5; }
+  }
+
+  &__btn {
+    font-family: $fontBody;
+    font-size: $btnText;
+    font-weight: $semibold;
+    color: $white;
+    background-color: $pink;
+    border: none;
+    border-radius: $radiusFull;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover { background-color: $pinkDark; }
+  }
+}
