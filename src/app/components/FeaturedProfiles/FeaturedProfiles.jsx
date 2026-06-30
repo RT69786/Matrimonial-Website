@@ -9,11 +9,14 @@ import "./_featuredProfiles.scss";
 
 export const FeaturedProfiles = () => {
   const router = useRouter();
-  const { user } = useModal();
+  const { user, authChecked } = useModal();
   const [profiles, setProfiles] = useState([]);
-  const [loading,  setLoading]  = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // wait until we know for sure whether someone is logged in or not
+    if (!authChecked) return;
+
     const fetchFeatured = async () => {
       let query = supabase
         .from("profiles")
@@ -21,7 +24,6 @@ export const FeaturedProfiles = () => {
         .order("created_at", { ascending: false })
         .limit(6);
 
-      // exclude the logged in user's own profile, if logged in
       if (user) {
         query = query.neq("id", user.id);
       }
@@ -33,10 +35,10 @@ export const FeaturedProfiles = () => {
     };
 
     fetchFeatured();
-  }, [user]);
+  }, [user, authChecked]);
 
-  if (!loading && profiles.length === 0) return null;
   if (loading) return null;
+  if (profiles.length === 0) return null;
 
   return (
     <section className="featured-profiles">

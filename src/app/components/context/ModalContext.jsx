@@ -10,6 +10,7 @@ const ModalContext = createContext(null);
 export const ModalProvider = ({ children }) => {
   const [activeModal, setActiveModal] = useState(null);
   const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
 
   const fetchPendingCount = async (currentUser) => {
@@ -31,6 +32,7 @@ export const ModalProvider = ({ children }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       fetchPendingCount(session?.user ?? null);
+      setAuthChecked(true);
     });
 
     const {
@@ -38,12 +40,12 @@ export const ModalProvider = ({ children }) => {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       fetchPendingCount(session?.user ?? null);
+      setAuthChecked(true);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  // poll every 30 seconds so badge stays fresh without manual refresh
   useEffect(() => {
     if (!user) return;
     const interval = setInterval(() => fetchPendingCount(user), 30000);
@@ -76,6 +78,7 @@ export const ModalProvider = ({ children }) => {
         openRegister,
         closeModal,
         user,
+        authChecked,
         logout,
         pendingCount,
         refreshPendingCount,
