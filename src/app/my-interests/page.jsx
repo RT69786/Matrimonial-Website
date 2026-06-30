@@ -12,6 +12,7 @@ export default function MyInterestsPage() {
   const [received, setReceived] = useState([]);
   const [sent, setSent] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -20,6 +21,12 @@ export default function MyInterestsPage() {
     }
     fetchInterests();
   }, [user]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(""), 2500);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const attachProfiles = async (list, idField) => {
     const ids = list.map((i) => i[idField]);
@@ -63,16 +70,27 @@ export default function MyInterestsPage() {
     if (!error) {
       fetchInterests();
       refreshPendingCount();
+      setToast(
+        status === "accepted" ? "Interest accepted!" : "Interest declined.",
+      );
     }
   };
 
   const handleWithdraw = async (interestId) => {
+    // remove from UI immediately so it feels instant
+    setSent((prev) => prev.filter((i) => i.id !== interestId));
+
     const { error } = await supabase
       .from("interests")
       .delete()
       .eq("id", interestId);
 
-    if (!error) fetchInterests();
+    if (error) {
+      setToast("Could not withdraw. Try again.");
+      fetchInterests(); // restore correct state if delete failed
+    } else {
+      setToast("Interest request withdrawn.");
+    }
   };
 
   if (!user) {
@@ -95,6 +113,8 @@ export default function MyInterestsPage() {
 
   return (
     <div className="my-interests">
+      {toast && <div className="my-interests__toast">{toast}</div>}
+
       <div className="my-interests__inner">
         <h1 className="my-interests__title">My Interests</h1>
 

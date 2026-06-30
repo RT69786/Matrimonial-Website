@@ -226,4 +226,32 @@
       color: #cc0000;
     }
   }
+
+  &__toast {
+    position: fixed;
+    top: calc(#{$navHeight} + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: $neutral900;
+    color: $white;
+    font-family: $fontBody;
+    font-size: $h5;
+    font-weight: $medium;
+    padding: 12px 24px;
+    border-radius: $radiusFull;
+    box-shadow: $shadowLg;
+    z-index: 2000;
+    animation: toastFade 0.3s ease;
+  }
+
+  @keyframes toastFade {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -10px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
 }
