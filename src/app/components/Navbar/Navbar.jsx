@@ -66,8 +66,8 @@ const Navbar = () => {
               </div>
               <div className="navbar__user-dropdown">
                 <p className="navbar__user-dropdown-email">{user.email}</p>
-                <Link href="/members" className="navbar__user-dropdown-link">
-                  Browse Members
+                <Link href="/browse" className="navbar__user-dropdown-link">
+                  Browse Profiles
                 </Link>
                 <Link
                   href="/my-interests"
@@ -133,11 +133,11 @@ const Navbar = () => {
             <>
               <li className="navbar__drawer-item">
                 <Link
-                  href="/members"
+                  href="/browse"
                   className="navbar__drawer-anchor"
                   onClick={() => setMenuOpen(false)}
                 >
-                  Browse Members
+                  Browse Profiles
                 </Link>
               </li>
               <li className="navbar__drawer-item">
