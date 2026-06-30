@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
-import { LoginModal } from "../components/LoginModal/LoginModal";
-import { RegisterModal } from "../components/RegisterModal/RegisterModal";
+import { LoginModal } from "../LoginModal/LoginModal";
+import { RegisterModal } from "../RegisterModal/RegisterModal";
 
 const ModalContext = createContext(null);
 
