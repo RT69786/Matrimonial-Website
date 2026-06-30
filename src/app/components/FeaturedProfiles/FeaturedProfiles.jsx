@@ -3,30 +3,38 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useModal } from "../context/ModalContext";
 import { ProfileCard } from "../ProfileCard/ProfileCard";
 import "./_featuredProfiles.scss";
 
 export const FeaturedProfiles = () => {
   const router = useRouter();
+  const { user } = useModal();
   const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading,  setLoading]  = useState(true);
 
   useEffect(() => {
     const fetchFeatured = async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("profiles")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(6);
+
+      // exclude the logged in user's own profile, if logged in
+      if (user) {
+        query = query.neq("id", user.id);
+      }
+
+      const { data, error } = await query;
 
       if (!error) setProfiles(data || []);
       setLoading(false);
     };
 
     fetchFeatured();
-  }, []);
+  }, [user]);
 
-  // don't render the section at all if no real users exist yet
   if (!loading && profiles.length === 0) return null;
   if (loading) return null;
 
