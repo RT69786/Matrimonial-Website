@@ -14,7 +14,6 @@ export const FeaturedProfiles = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // wait until we know for sure whether someone is logged in or not
     if (!authChecked) return;
 
     const fetchFeatured = async () => {
@@ -24,6 +23,8 @@ export const FeaturedProfiles = () => {
         .order("created_at", { ascending: false })
         .limit(6);
 
+      // only exclude self while actually logged in,
+      // this is reliable, anything else is guesswork
       if (user) {
         query = query.neq("id", user.id);
       }
