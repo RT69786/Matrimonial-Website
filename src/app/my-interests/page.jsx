@@ -76,6 +76,12 @@ export default function MyInterestsPage() {
 
   const list = activeTab === "received" ? received : sent;
 
+  // only count items that still need attention (pending)
+  const receivedPendingCount = received.filter(
+    (i) => i.status === "pending",
+  ).length;
+  const sentPendingCount = sent.filter((i) => i.status === "pending").length;
+
   return (
     <div className="my-interests">
       <div className="my-interests__inner">
@@ -86,13 +92,13 @@ export default function MyInterestsPage() {
             className={`my-interests__tab ${activeTab === "received" ? "my-interests__tab--active" : ""}`}
             onClick={() => setActiveTab("received")}
           >
-            Received ({received.length})
+            Received {receivedPendingCount > 0 && `(${receivedPendingCount})`}
           </button>
           <button
             className={`my-interests__tab ${activeTab === "sent" ? "my-interests__tab--active" : ""}`}
             onClick={() => setActiveTab("sent")}
           >
-            Sent ({sent.length})
+            Sent {sentPendingCount > 0 && `(${sentPendingCount})`}
           </button>
         </div>
 
