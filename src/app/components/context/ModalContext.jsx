@@ -8,10 +8,25 @@ import { RegisterModal } from "../RegisterModal/RegisterModal";
 const ModalContext = createContext(null);
 
 export const ModalProvider = ({ children }) => {
-  const [activeModal, setActiveModal] = useState(null);
-  const [user, setUser] = useState(null);
-  const [authChecked, setAuthChecked] = useState(false);
-  const [pendingCount, setPendingCount] = useState(0);
+  const [activeModal,   setActiveModal]   = useState(null);
+  const [user,          setUser]          = useState(null);
+  const [authChecked,   setAuthChecked]   = useState(false);
+  const [pendingCount,  setPendingCount]  = useState(0);
+  const [hasAccount,    setHasAccount]    = useState(false);
+  const [ownProfileId,  setOwnProfileId]  = useState(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // hasAccount is fine to share across the whole browser
+    const storedHasAccount = localStorage.getItem("rishta_has_account") === "true";
+
+    // ownProfileId must be per-window/tab, not shared, so we use sessionStorage
+    const storedProfileId = sessionStorage.getItem("rishta_profile_id");
+
+    setHasAccount(storedHasAccount);
+    setOwnProfileId(storedProfileId);
+  }, []);
 
   const fetchPendingCount = async (currentUser) => {
     if (!currentUser) {
@@ -33,15 +48,22 @@ export const ModalProvider = ({ children }) => {
       setUser(session?.user ?? null);
       fetchPendingCount(session?.user ?? null);
       setAuthChecked(true);
+
+      // if a session already exists when the page loads, make sure
+      // this tab knows it's their own profile too
+      if (session?.user?.id) {
+        sessionStorage.setItem("rishta_profile_id", session.user.id);
+        setOwnProfileId(session.user.id);
+      }
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      fetchPendingCount(session?.user ?? null);
-      setAuthChecked(true);
-    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        fetchPendingCount(session?.user ?? null);
+        setAuthChecked(true);
+      }
+    );
 
     return () => subscription.unsubscribe();
   }, []);
@@ -54,36 +76,43 @@ export const ModalProvider = ({ children }) => {
 
   useEffect(() => {
     document.body.style.overflow = activeModal ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [activeModal]);
 
-  const openLogin = () => setActiveModal("login");
+  const openLogin    = () => setActiveModal("login");
   const openRegister = () => setActiveModal("register");
-  const closeModal = () => setActiveModal(null);
+  const closeModal   = () => setActiveModal(null);
 
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
     setPendingCount(0);
+    // ownProfileId stays in sessionStorage on purpose, this tab still
+    // belongs to the same person until they close it or another login happens
   };
 
   const refreshPendingCount = () => fetchPendingCount(user);
 
+  const markHasAccount = () => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("rishta_has_account", "true");
+    setHasAccount(true);
+  };
+
+  const setOwnProfile = (profileId) => {
+    if (typeof window === "undefined") return;
+    sessionStorage.setItem("rishta_profile_id", profileId);
+    setOwnProfileId(profileId);
+  };
+
   return (
-    <ModalContext.Provider
-      value={{
-        openLogin,
-        openRegister,
-        closeModal,
-        user,
-        authChecked,
-        logout,
-        pendingCount,
-        refreshPendingCount,
-      }}
-    >
+    <ModalContext.Provider value={{
+      openLogin, openRegister, closeModal,
+      user, authChecked, logout,
+      pendingCount, refreshPendingCount,
+      hasAccount, markHasAccount,
+      ownProfileId, setOwnProfile,
+    }}>
       {children}
       {activeModal === "login" && (
         <LoginModal onClose={closeModal} onSwitchToRegister={openRegister} />
