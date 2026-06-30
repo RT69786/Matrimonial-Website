@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { allProfiles } from "../data/profiles";
+import { supabase } from "@/lib/supabase";
 import { useModal } from "../components/context/ModalContext";
 import CTABanner from "../components/CTABanner/CTABanner";
 import Footer from "../components/Footer/Footer";
@@ -13,15 +13,30 @@ const cities = [
   "Karachi",
   "Lahore",
   "Islamabad",
+  "Rawalpindi",
   "Multan",
   "Faisalabad",
+  "Peshawar",
+  "Quetta",
+  "Sialkot",
+  "Hyderabad",
 ];
-const maritalStatuses = ["All", "Single", "Divorced", "Widowed"];
+const maritalStatuses = [
+  "All",
+  "Single",
+  "Divorced no children",
+  "Divorced have children",
+  "Widowed no children",
+  "Widowed have children",
+];
 
 function BrowseContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, openLogin } = useModal();
+
+  const [allProfiles, setAllProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [searchText, setSearchText] = useState("");
   const [cityFilter, setCityFilter] = useState("All");
@@ -34,6 +49,26 @@ function BrowseContent() {
   const [ageMax, setAgeMax] = useState(
     Number(searchParams.get("ageMax")) || 60,
   );
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .neq("id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) setAllProfiles(data || []);
+      setLoading(false);
+    };
+
+    fetchProfiles();
+  }, [user]);
 
   if (!user) {
     return (
@@ -55,13 +90,13 @@ function BrowseContent() {
   const filtered = allProfiles.filter((p) => {
     const cityMatch = cityFilter === "All" || p.city === cityFilter;
     const statusMatch =
-      statusFilter === "All" || p.maritalStatus === statusFilter;
+      statusFilter === "All" || p.marital_status === statusFilter;
     const ageMatch = p.age >= ageMin && p.age <= ageMax;
     const searchMatch =
       searchText === "" ||
-      p.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      p.city.toLowerCase().includes(searchText.toLowerCase()) ||
-      p.profession.toLowerCase().includes(searchText.toLowerCase());
+      (p.full_name || "").toLowerCase().includes(searchText.toLowerCase()) ||
+      (p.city || "").toLowerCase().includes(searchText.toLowerCase()) ||
+      (p.profession || "").toLowerCase().includes(searchText.toLowerCase());
     return cityMatch && statusMatch && ageMatch && searchMatch;
   });
 
@@ -141,39 +176,60 @@ function BrowseContent() {
         </aside>
 
         <main className="browse-page__results">
-          <p className="browse-page__count">{filtered.length} profiles found</p>
+          <p className="browse-page__count">
+            {loading
+              ? "Loading profiles..."
+              : `${filtered.length} profiles found`}
+          </p>
 
           <div className="browse-page__grid">
-            {filtered.length > 0 ? (
-              filtered.map((p, index) => (
-                <div
-                  key={p.id}
-                  className="browse-card"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="browse-card__image">
-                    <img src={p.image} alt={p.name} loading="lazy" />
-                  </div>
-                  <div className="browse-card__body">
-                    <h3 className="browse-card__name">{p.name}</h3>
-                    <p className="browse-card__meta">
-                      {p.age} yrs • {p.city}
-                    </p>
-                    <p className="browse-card__profession">{p.profession}</p>
-                  </div>
-                  <button
-                    className="browse-card__btn"
-                    onClick={() => router.push(`/profile/${p.id}`)}
-                  >
-                    View Profile
-                  </button>
-                </div>
-              ))
-            ) : (
+            {!loading && filtered.length === 0 && allProfiles.length === 0 && (
+              <p className="browse-page__empty">
+                No members have registered yet. Be the first to invite someone!
+              </p>
+            )}
+
+            {!loading && filtered.length === 0 && allProfiles.length > 0 && (
               <p className="browse-page__empty">
                 No profiles match your filters.
               </p>
             )}
+
+            {filtered.map((p, index) => (
+              <div
+                key={p.id}
+                className="browse-card"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="browse-card__image">
+                  {p.image_url ? (
+                    <img
+                      src={p.image_url}
+                      alt={p.full_name}
+                      loading="lazy"
+                      className={
+                        p.blur_photo ? "browse-card__image--blurred" : ""
+                      }
+                    />
+                  ) : (
+                    <div className="browse-card__no-photo">No Photo</div>
+                  )}
+                </div>
+                <div className="browse-card__body">
+                  <h3 className="browse-card__name">{p.full_name}</h3>
+                  <p className="browse-card__meta">
+                    {p.age} yrs • {p.city}
+                  </p>
+                  <p className="browse-card__profession">{p.profession}</p>
+                </div>
+                <button
+                  className="browse-card__btn"
+                  onClick={() => router.push(`/profile/${p.id}`)}
+                >
+                  View Profile
+                </button>
+              </div>
+            ))}
           </div>
         </main>
       </div>

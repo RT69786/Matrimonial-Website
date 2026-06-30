@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import "./_profilecard.scss";
 
 export const ProfileCard = ({
   image,
+  blurred,
   name,
   age,
   city,
@@ -15,13 +15,15 @@ export const ProfileCard = ({
   return (
     <div className="profile-card">
       <div className="profile-card__image">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          style={{ objectFit: "cover", objectPosition: "center top" }}
-        />
+        {image ? (
+          <img
+            src={image}
+            alt={name}
+            className={blurred ? "profile-card__image--blurred" : ""}
+          />
+        ) : (
+          <div className="profile-card__no-photo">No Photo</div>
+        )}
       </div>
 
       <div className="profile-card__body">
