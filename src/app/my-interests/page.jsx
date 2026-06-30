@@ -76,23 +76,6 @@ export default function MyInterestsPage() {
     }
   };
 
-  const handleWithdraw = async (interestId) => {
-    // remove from UI immediately so it feels instant
-    setSent((prev) => prev.filter((i) => i.id !== interestId));
-
-    const { error } = await supabase
-      .from("interests")
-      .delete()
-      .eq("id", interestId);
-
-    if (error) {
-      setToast("Could not withdraw. Try again.");
-      fetchInterests(); // restore correct state if delete failed
-    } else {
-      setToast("Interest request withdrawn.");
-    }
-  };
-
   if (!user) {
     return (
       <div className="my-interests">
@@ -180,13 +163,8 @@ export default function MyInterestsPage() {
                 )}
 
                 {activeTab === "sent" && interest.status === "pending" && (
-                  <div className="interest-card__actions">
-                    <button
-                      className="interest-card__decline"
-                      onClick={() => handleWithdraw(interest.id)}
-                    >
-                      Withdraw
-                    </button>
+                  <div className="interest-card__badge interest-card__badge--pending">
+                    pending
                   </div>
                 )}
 
