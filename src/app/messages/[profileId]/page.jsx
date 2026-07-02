@@ -31,7 +31,6 @@ export default function MessagesPage() {
   }, [messages]);
 
   const loadData = async () => {
-    // fetch the other person's profile
     const { data: profileData } = await supabase
       .from("profiles")
       .select("*")
@@ -40,24 +39,30 @@ export default function MessagesPage() {
 
     setOtherProfile(profileData);
 
-    // check if there is an accepted interest between these two people
-    // in either direction, Ashar → Sana or Sana → Ashar
-    const { data: interest } = await supabase
+    // check direction 1: current user sent interest to profileId and accepted
+    const { data: interest1 } = await supabase
       .from("interests")
       .select("id")
+      .eq("sender_id", user.id)
+      .eq("receiver_id", profileId)
       .eq("status", "accepted")
-      .or(
-        `and(sender_id.eq.${user.id},receiver_id.eq.${profileId}),and(sender_id.eq.${profileId},receiver_id.eq.${user.id})`,
-      )
-      .single();
+      .maybeSingle();
 
-    if (!interest) {
+    // check direction 2: profileId sent interest to current user and accepted
+    const { data: interest2 } = await supabase
+      .from("interests")
+      .select("id")
+      .eq("sender_id", profileId)
+      .eq("receiver_id", user.id)
+      .eq("status", "accepted")
+      .maybeSingle();
+
+    if (!interest1 && !interest2) {
       setNotAllowed(true);
       setLoading(false);
       return;
     }
 
-    // fetch all messages between these two people
     const { data: messagesData } = await supabase
       .from("messages")
       .select("*")
@@ -136,7 +141,6 @@ export default function MessagesPage() {
     <>
       <div className="messages-page">
         <div className="messages-page__inner">
-          {/* ── Header ── */}
           <div className="messages-page__header">
             <button
               className="messages-page__back"
@@ -166,7 +170,6 @@ export default function MessagesPage() {
             </div>
           </div>
 
-          {/* ── Messages ── */}
           <div className="messages-page__chat">
             {messages.length === 0 && (
               <p className="messages-page__empty">
@@ -192,7 +195,6 @@ export default function MessagesPage() {
             <div ref={bottomRef} />
           </div>
 
-          {/* ── Input ── */}
           <div className="messages-page__input-area">
             <textarea
               className="messages-page__input"
