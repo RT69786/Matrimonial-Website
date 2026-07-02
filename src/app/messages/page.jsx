@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { useModal } from "../components/context/ModalContext";
+import { useModal } from "@/app/components/context/ModalContext";
 import "./_messagesList.scss";
 
 export default function MessagesListPage() {
@@ -18,7 +18,7 @@ export default function MessagesListPage() {
   }, [user]);
 
   const fetchConversations = async () => {
-    // get all accepted interests involving this user in either direction
+    // get all accepted interests in both directions
     const { data: sent } = await supabase
       .from("interests")
       .select("receiver_id")
@@ -41,12 +41,30 @@ export default function MessagesListPage() {
       return;
     }
 
+    // fetch profiles of matched people
     const { data: profiles } = await supabase
       .from("profiles")
       .select("*")
       .in("id", ids);
 
-    setConversations(profiles || []);
+    // for each conversation, count unread messages from that person
+    const conversationsWithUnread = await Promise.all(
+      (profiles || []).map(async (p) => {
+        const { count } = await supabase
+          .from("messages")
+          .select("*", { count: "exact", head: true })
+          .eq("sender_id", p.id)
+          .eq("receiver_id", user.id)
+          .eq("is_read", false);
+
+        return { ...p, unreadCount: count || 0 };
+      }),
+    );
+
+    // sort by unread first so conversations with new messages appear at top
+    conversationsWithUnread.sort((a, b) => b.unreadCount - a.unreadCount);
+
+    setConversations(conversationsWithUnread);
     setLoading(false);
   };
 
@@ -84,7 +102,7 @@ export default function MessagesListPage() {
             {conversations.map((p) => (
               <div
                 key={p.id}
-                className="conversation-card"
+                className={`conversation-card ${p.unreadCount > 0 ? "conversation-card--unread" : ""}`}
                 onClick={() => router.push(`/messages/${p.id}`)}
               >
                 <div className="conversation-card__photo">
@@ -102,7 +120,14 @@ export default function MessagesListPage() {
                     {p.city} • {p.profession}
                   </p>
                 </div>
-                <span className="conversation-card__arrow">→</span>
+
+                {p.unreadCount > 0 ? (
+                  <span className="conversation-card__unread-badge">
+                    {p.unreadCount}
+                  </span>
+                ) : (
+                  <span className="conversation-card__arrow">→</span>
+                )}
               </div>
             ))}
           </div>

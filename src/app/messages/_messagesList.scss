@@ -94,10 +94,16 @@
   box-shadow: $shadowSm;
   cursor: pointer;
   transition: $transition;
+  border: 2px solid transparent;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadowMd;
+  }
+
+  &--unread {
+    border-color: $pink;
+    background: $pinkSoft;
   }
 
   &__photo {
@@ -150,6 +156,21 @@
   &__arrow {
     font-size: 18px;
     color: $neutral500;
+    flex-shrink: 0;
+  }
+
+  &__unread-badge {
+    background: $pink;
+    color: $white;
+    font-family: $fontBody;
+    font-size: $small;
+    font-weight: $bold;
+    width: 24px;
+    height: 24px;
+    border-radius: $radiusFull;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
 }

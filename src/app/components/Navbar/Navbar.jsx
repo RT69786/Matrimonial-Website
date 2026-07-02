@@ -87,7 +87,7 @@ const Navbar = () => {
                   My Interests {pendingCount > 0 && `(${pendingCount})`}
                 </Link>
                 <Link href="/messages" className="navbar__user-dropdown-link">
-                  💬 Messages {unreadMessages > 0 && `(${unreadMessages})`}
+                  Messages {unreadMessages > 0 && `(${unreadMessages})`}
                 </Link>
                 <Link
                   href="/edit-profile"
