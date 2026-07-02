@@ -9,15 +9,15 @@ import "./_messages.scss";
 
 export default function MessagesPage() {
   const { profileId } = useParams();
-  const router        = useRouter();
-  const { user }      = useModal();
+  const router = useRouter();
+  const { user } = useModal();
 
   const [otherProfile, setOtherProfile] = useState(null);
-  const [messages,     setMessages]     = useState([]);
-  const [newMessage,   setNewMessage]   = useState("");
-  const [loading,      setLoading]      = useState(true);
-  const [sending,      setSending]      = useState(false);
-  const [notAllowed,   setNotAllowed]   = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [notAllowed, setNotAllowed] = useState(false);
 
   const bottomRef = useRef(null);
 
@@ -26,37 +26,24 @@ export default function MessagesPage() {
     loadData();
   }, [user, profileId]);
 
-  // real time listener — fires whenever a new message is inserted
+  // poll for new messages every 3 seconds
   useEffect(() => {
-    if (!user) return;
+    if (!user || notAllowed || loading) return;
 
-    const channel = supabase
-      .channel("messages-realtime")
-      .on(
-        "postgres_changes",
-        {
-          event:  "INSERT",
-          schema: "public",
-          table:  "messages",
-        },
-        (payload) => {
-          const msg = payload.new;
-          // only add to state if it belongs to this conversation
-          const belongsHere =
-            (msg.sender_id === user.id     && msg.receiver_id === profileId) ||
-            (msg.sender_id === profileId   && msg.receiver_id === user.id);
+    const interval = setInterval(async () => {
+      const { data: messagesData } = await supabase
+        .from("messages")
+        .select("*")
+        .or(
+          `and(sender_id.eq.${user.id},receiver_id.eq.${profileId}),and(sender_id.eq.${profileId},receiver_id.eq.${user.id})`,
+        )
+        .order("created_at", { ascending: true });
 
-          if (belongsHere) {
-            setMessages((prev) => [...prev, msg]);
-          }
-        }
-      )
-      .subscribe();
+      if (messagesData) setMessages(messagesData);
+    }, 3000);
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user, profileId]);
+    return () => clearInterval(interval);
+  }, [user, profileId, notAllowed, loading]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,17 +61,17 @@ export default function MessagesPage() {
     const { data: interest1 } = await supabase
       .from("interests")
       .select("id")
-      .eq("sender_id",   user.id)
+      .eq("sender_id", user.id)
       .eq("receiver_id", profileId)
-      .eq("status",      "accepted")
+      .eq("status", "accepted")
       .maybeSingle();
 
     const { data: interest2 } = await supabase
       .from("interests")
       .select("id")
-      .eq("sender_id",   profileId)
+      .eq("sender_id", profileId)
       .eq("receiver_id", user.id)
-      .eq("status",      "accepted")
+      .eq("status", "accepted")
       .maybeSingle();
 
     if (!interest1 && !interest2) {
@@ -97,7 +84,7 @@ export default function MessagesPage() {
       .from("messages")
       .select("*")
       .or(
-        `and(sender_id.eq.${user.id},receiver_id.eq.${profileId}),and(sender_id.eq.${profileId},receiver_id.eq.${user.id})`
+        `and(sender_id.eq.${user.id},receiver_id.eq.${profileId}),and(sender_id.eq.${profileId},receiver_id.eq.${user.id})`,
       )
       .order("created_at", { ascending: true });
 
@@ -110,19 +97,25 @@ export default function MessagesPage() {
 
     setSending(true);
 
-    const { error } = await supabase
+    const messageText = newMessage.trim();
+    setNewMessage("");
+
+    const { data, error } = await supabase
       .from("messages")
       .insert({
-        sender_id:   user.id,
+        sender_id: user.id,
         receiver_id: profileId,
-        content:     newMessage.trim(),
-      });
+        content: messageText,
+      })
+      .select()
+      .single();
 
     setSending(false);
 
-    if (!error) {
-      setNewMessage("");
-      // real time listener will add the message to state automatically
+    // add your own sent message to state immediately
+    // so you don't have to wait 3 seconds to see it
+    if (!error && data) {
+      setMessages((prev) => [...prev, data]);
     }
   };
 
@@ -155,7 +148,10 @@ export default function MessagesPage() {
         <div className="messages-page__not-allowed">
           <div className="messages-page__not-allowed-icon">🔒</div>
           <h2>You can't message this person yet</h2>
-          <p>Messaging is only available after both of you have accepted each other's interest request.</p>
+          <p>
+            Messaging is only available after both of you have accepted each
+            other's interest request.
+          </p>
           <button onClick={() => router.back()}>← Go Back</button>
         </div>
       </div>
@@ -166,12 +162,19 @@ export default function MessagesPage() {
     <>
       <div className="messages-page">
         <div className="messages-page__inner">
-
           <div className="messages-page__header">
-            <button className="messages-page__back" onClick={() => router.back()}>←</button>
+            <button
+              className="messages-page__back"
+              onClick={() => router.back()}
+            >
+              ←
+            </button>
             <div className="messages-page__header-photo">
               {otherProfile?.image_url ? (
-                <img src={otherProfile.image_url} alt={otherProfile.full_name} />
+                <img
+                  src={otherProfile.image_url}
+                  alt={otherProfile.full_name}
+                />
               ) : (
                 <div className="messages-page__header-initials">
                   {otherProfile?.full_name?.charAt(0).toUpperCase()}
@@ -179,14 +182,20 @@ export default function MessagesPage() {
               )}
             </div>
             <div className="messages-page__header-info">
-              <h2 className="messages-page__header-name">{otherProfile?.full_name}</h2>
-              <p className="messages-page__header-sub">{otherProfile?.city} • {otherProfile?.profession}</p>
+              <h2 className="messages-page__header-name">
+                {otherProfile?.full_name}
+              </h2>
+              <p className="messages-page__header-sub">
+                {otherProfile?.city} • {otherProfile?.profession}
+              </p>
             </div>
           </div>
 
           <div className="messages-page__chat">
             {messages.length === 0 && (
-              <p className="messages-page__empty">No messages yet. Say salaam! 👋</p>
+              <p className="messages-page__empty">
+                No messages yet. Say salaam! 👋
+              </p>
             )}
 
             {messages.map((msg) => (
@@ -196,7 +205,10 @@ export default function MessagesPage() {
               >
                 <p className="message-bubble__text">{msg.content}</p>
                 <span className="message-bubble__time">
-                  {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(msg.created_at).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
               </div>
             ))}
@@ -221,7 +233,6 @@ export default function MessagesPage() {
               {sending ? "..." : "Send"}
             </button>
           </div>
-
         </div>
       </div>
       <Footer />
