@@ -41,7 +41,6 @@ export default function MessagesPage() {
 
       if (messagesData) {
         setMessages(messagesData);
-        // mark any new incoming messages as read
         markMessagesAsRead();
       }
     }, 3000);
@@ -54,14 +53,16 @@ export default function MessagesPage() {
   }, [messages]);
 
   const markMessagesAsRead = async () => {
-    await supabase
+    const { error } = await supabase
       .from("messages")
       .update({ is_read: true })
       .eq("receiver_id", user.id)
       .eq("sender_id", profileId)
       .eq("is_read", false);
 
-    refreshUnreadMessages();
+    if (!error) {
+      refreshUnreadMessages();
+    }
   };
 
   const loadData = async () => {
@@ -104,10 +105,7 @@ export default function MessagesPage() {
       .order("created_at", { ascending: true });
 
     setMessages(messagesData || []);
-
-    // mark messages as read as soon as you open the chat
     await markMessagesAsRead();
-
     setLoading(false);
   };
 
