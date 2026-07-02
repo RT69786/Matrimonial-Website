@@ -48,9 +48,12 @@ export default function MessagesPage() {
     return () => clearInterval(interval);
   }, [user, profileId, notAllowed, loading]);
 
+  // only scroll to bottom on first load
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (!loading) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [loading]);
 
   const markMessagesAsRead = async () => {
     const { error } = await supabase
@@ -130,6 +133,10 @@ export default function MessagesPage() {
 
     if (!error && data) {
       setMessages((prev) => [...prev, data]);
+      setTimeout(
+        () => bottomRef.current?.scrollIntoView({ behavior: "smooth" }),
+        100,
+      );
     }
   };
 
