@@ -6,17 +6,26 @@ import { useModal } from "../context/ModalContext";
 import "./_navbar.scss";
 
 const navLinks = [
-  { label: "Home",            href: "/" },
+  { label: "Home", href: "/" },
   { label: "Browse Profiles", href: "/browse" },
   { label: "Success Stories", href: "/#testimonials" },
-  { label: "About",           href: "/about" },
-  { label: "Contact",         href: "/contact" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { openLogin, openRegister, user, authChecked, logout, pendingCount, hasAccount } = useModal();
+  const {
+    openLogin,
+    openRegister,
+    user,
+    authChecked,
+    logout,
+    pendingCount,
+    hasAccount,
+    unreadMessages,
+  } = useModal();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -31,6 +40,8 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const totalBadge = pendingCount + unreadMessages;
 
   return (
     <nav className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
@@ -60,8 +71,8 @@ const Navbar = () => {
             <div className="navbar__user">
               <div className="navbar__user-avatar">
                 {user.email.charAt(0).toUpperCase()}
-                {pendingCount > 0 && (
-                  <span className="navbar__user-badge">{pendingCount}</span>
+                {totalBadge > 0 && (
+                  <span className="navbar__user-badge">{totalBadge}</span>
                 )}
               </div>
               <div className="navbar__user-dropdown">
@@ -69,16 +80,25 @@ const Navbar = () => {
                 <Link href="/browse" className="navbar__user-dropdown-link">
                   Browse Profiles
                 </Link>
-                <Link href="/my-interests" className="navbar__user-dropdown-link">
+                <Link
+                  href="/my-interests"
+                  className="navbar__user-dropdown-link"
+                >
                   My Interests {pendingCount > 0 && `(${pendingCount})`}
                 </Link>
                 <Link href="/messages" className="navbar__user-dropdown-link">
-                  💬 Messages
+                  💬 Messages {unreadMessages > 0 && `(${unreadMessages})`}
                 </Link>
-                <Link href="/edit-profile" className="navbar__user-dropdown-link">
+                <Link
+                  href="/edit-profile"
+                  className="navbar__user-dropdown-link"
+                >
                   Edit Profile
                 </Link>
-                <button onClick={logout} className="navbar__user-dropdown-logout">
+                <button
+                  onClick={logout}
+                  className="navbar__user-dropdown-logout"
+                >
                   Logout
                 </button>
               </div>
@@ -89,8 +109,12 @@ const Navbar = () => {
             </button>
           ) : (
             <>
-              <button onClick={openLogin}    className="navbar__auth-login">Login</button>
-              <button onClick={openRegister} className="navbar__auth-register">Register Free</button>
+              <button onClick={openLogin} className="navbar__auth-login">
+                Login
+              </button>
+              <button onClick={openRegister} className="navbar__auth-register">
+                Register Free
+              </button>
             </>
           )}
         </div>
@@ -108,7 +132,9 @@ const Navbar = () => {
       </div>
 
       {/* ── Mobile Drawer ── */}
-      <div className={`navbar__drawer ${menuOpen ? "navbar__drawer--open" : ""}`}>
+      <div
+        className={`navbar__drawer ${menuOpen ? "navbar__drawer--open" : ""}`}
+      >
         <ul className="navbar__drawer-links">
           {navLinks.map((link) => (
             <li key={link.href} className="navbar__drawer-item">
@@ -124,22 +150,38 @@ const Navbar = () => {
           {user && (
             <>
               <li className="navbar__drawer-item">
-                <Link href="/browse" className="navbar__drawer-anchor" onClick={() => setMenuOpen(false)}>
+                <Link
+                  href="/browse"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Browse Profiles
                 </Link>
               </li>
               <li className="navbar__drawer-item">
-                <Link href="/my-interests" className="navbar__drawer-anchor" onClick={() => setMenuOpen(false)}>
+                <Link
+                  href="/my-interests"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
                   My Interests {pendingCount > 0 && `(${pendingCount})`}
                 </Link>
               </li>
               <li className="navbar__drawer-item">
-                <Link href="/messages" className="navbar__drawer-anchor" onClick={() => setMenuOpen(false)}>
-                  💬 Messages
+                <Link
+                  href="/messages"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  💬 Messages {unreadMessages > 0 && `(${unreadMessages})`}
                 </Link>
               </li>
               <li className="navbar__drawer-item">
-                <Link href="/edit-profile" className="navbar__drawer-anchor" onClick={() => setMenuOpen(false)}>
+                <Link
+                  href="/edit-profile"
+                  className="navbar__drawer-anchor"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Edit Profile
                 </Link>
               </li>
@@ -157,7 +199,10 @@ const Navbar = () => {
                 <p className="navbar__drawer-user-email">{user.email}</p>
               </div>
               <button
-                onClick={() => { logout(); setMenuOpen(false); }}
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
                 className="navbar__auth-register"
               >
                 Logout
@@ -169,8 +214,12 @@ const Navbar = () => {
             </button>
           ) : (
             <>
-              <button onClick={openLogin}    className="navbar__auth-login">Login</button>
-              <button onClick={openRegister} className="navbar__auth-register">Register Free</button>
+              <button onClick={openLogin} className="navbar__auth-login">
+                Login
+              </button>
+              <button onClick={openRegister} className="navbar__auth-register">
+                Register Free
+              </button>
             </>
           )}
         </div>

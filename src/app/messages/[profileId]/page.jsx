@@ -10,7 +10,7 @@ import "./_messages.scss";
 export default function MessagesPage() {
   const { profileId } = useParams();
   const router = useRouter();
-  const { user } = useModal();
+  const { user, refreshUnreadMessages } = useModal();
 
   const [otherProfile, setOtherProfile] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -39,7 +39,11 @@ export default function MessagesPage() {
         )
         .order("created_at", { ascending: true });
 
-      if (messagesData) setMessages(messagesData);
+      if (messagesData) {
+        setMessages(messagesData);
+        // mark any new incoming messages as read
+        markMessagesAsRead();
+      }
     }, 3000);
 
     return () => clearInterval(interval);
@@ -48,6 +52,17 @@ export default function MessagesPage() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const markMessagesAsRead = async () => {
+    await supabase
+      .from("messages")
+      .update({ is_read: true })
+      .eq("receiver_id", user.id)
+      .eq("sender_id", profileId)
+      .eq("is_read", false);
+
+    refreshUnreadMessages();
+  };
 
   const loadData = async () => {
     const { data: profileData } = await supabase
@@ -89,6 +104,10 @@ export default function MessagesPage() {
       .order("created_at", { ascending: true });
 
     setMessages(messagesData || []);
+
+    // mark messages as read as soon as you open the chat
+    await markMessagesAsRead();
+
     setLoading(false);
   };
 
@@ -96,7 +115,6 @@ export default function MessagesPage() {
     if (!newMessage.trim()) return;
 
     setSending(true);
-
     const messageText = newMessage.trim();
     setNewMessage("");
 
@@ -112,8 +130,6 @@ export default function MessagesPage() {
 
     setSending(false);
 
-    // add your own sent message to state immediately
-    // so you don't have to wait 3 seconds to see it
     if (!error && data) {
       setMessages((prev) => [...prev, data]);
     }
